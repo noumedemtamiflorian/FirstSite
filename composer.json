@@ -1,0 +1,21 @@
+{
+    "name": "grafikart/mon-framework",
+    "authors": [
+        {
+            "name": "noumedem",
+            "email": "noumedemtamiflorian@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/Framework"
+        }
+    }
+    ,
+    "require": {
+        "phpunit/phpunit": "^9.2",
+        "guzzlehttp/psr7": "^1.6",
+        "http-interop/response-sender": "^1.0",
+        "squizlabs/php_codesniffer": "^3.5"
+    }
+}
