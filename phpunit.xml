@@ -1,0 +1,6 @@
+<phpunit bootstrap="./vendor/autoload.php">
+    <testsuites>
+        <testsuite name="money"/>
+                <directory>tests</directory>
+    </testsuites>
+</phpunit>

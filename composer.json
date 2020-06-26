@@ -8,7 +8,9 @@
     ],
     "autoload": {
         "psr-4": {
-            "Framework\\": "src/Framework"
+            "Framework\\": "src/Framework",
+            "App\\" : "src",
+            "Tests\\" : "tests"
         }
     }
     ,
@@ -16,6 +18,8 @@
         "phpunit/phpunit": "^9.2",
         "guzzlehttp/psr7": "^1.6",
         "http-interop/response-sender": "^1.0",
-        "squizlabs/php_codesniffer": "^3.5"
+        "squizlabs/php_codesniffer": "^3.5",
+        "altorouter/altorouter": "^2.0",
+        "zendframework/zend-expressive-fastroute": "2.0.0"
     }
 }
