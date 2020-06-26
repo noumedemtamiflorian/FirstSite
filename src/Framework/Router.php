@@ -2,6 +2,7 @@
 
 namespace Framework;
 
+use Framework\Router\MiddlewareApp;
 use Framework\Router\Route;
 use GuzzleHttp\Psr7\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,7 +32,7 @@ class Router
      */
     public function get(string $path, callable $callable, string $name)
     {
-        $this->router->addRoute(new ZendRoute($path, $callable, ['GET'], $name));
+        $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['GET'], $name));
     }
 
 
@@ -45,7 +46,7 @@ class Router
         if ($result->isSuccess()) {
             return new Route(
                 $result->getMatchedRouteName(),
-                $result->getMatchedMiddleware(),
+                $result->getMatchedRoute()->getMiddleware()->getCallback(),
                 $result->getMatchedParams()
             );
         }
@@ -54,6 +55,6 @@ class Router
 
     public function generateUri(string $name, array $params): ?string
     {
-        $this->router->generateUri($name, $params);
+        return $this->router->generateUri($name, $params);
     }
 }
