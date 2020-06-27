@@ -1,10 +1,11 @@
 <?php
 
-namespace Framework;
+namespace Tests\Framework\Renderer;
 
+use Framework\Renderer\RendererInterface;
 use phpDocumentor\Reflection\Types\Mixed_;
 
-class Renderer
+class PHPRenderer implements RendererInterface
 {
     const DEFAULT_NAMESPACE = "__MAIN";
     private $paths = [];
@@ -14,6 +15,13 @@ class Renderer
      * @var array
      */
     private $globals = [];
+
+    public function __construct(string $defaultPath = null)
+    {
+        if (!is_null($defaultPath)) {
+            $this->addPath($defaultPath);
+        }
+    }
 
     /**
      * permet de rajouter un chemin pour changer les vues
@@ -94,6 +102,6 @@ class Renderer
      */
     public function addGlobal(string $key, $value): void
     {
-        $this->globals[$key] =$value;
+        $this->globals[$key] = $value;
     }
 }

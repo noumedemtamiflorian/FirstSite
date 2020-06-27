@@ -1,0 +1,8 @@
+{% extends 'layout.twig' %}
+{% block title "Mes Article " %}
+{% block body %}
+    <h1>Bienvenue sur le blog</h1>
+    <ul>
+        <li><a href="{{ router.generateUri('blog.show', {slug:  'zaeaze-'})  }}" >Article <?= $i + 1 ?> </a></li>
+    </ul>
+{% endblock %}

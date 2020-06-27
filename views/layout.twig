@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/src/css/Framework/bootstrap-4.4.1-dist/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <title>{% block title "Mon site" %}</title>
+</head>
+<body>
+
+<div class="container">
+    <header class="">
+        <nav class="nav bg-dark nav-fill">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Title</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">About</a>
+            </li>
+        </nav>
+    </header>
+    {% block body %}{% endblock %}
+</div>
+</body>
+</html>
