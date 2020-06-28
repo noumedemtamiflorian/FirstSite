@@ -2,39 +2,23 @@
 
 namespace App\Blog;
 
+use App\Blog\Actions\BlogAction;
+use Framework\Module;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
-class BlogModule
+class BlogModule extends Module
 {
-    private $renderer;
+    const  DEFINITIONS = __DIR__ . "/config.php";
 
-    public function __construct(Router $router, RendererInterface $renderer)
+    public function __construct(string $prefix, Router $router, RendererInterface $renderer)
     {
-        $this->renderer = $renderer;
-        if (get_class($renderer) == "Framework\Renderer\PHPRenderer"){
-            $this->renderer->addPath('blog', '/views');
+        if (get_class($renderer) == "Framework\Renderer\PHPRenderer") {
+            $renderer->addPath('blog', '/views');
+        } elseif (get_class($renderer) == "Framework\Renderer\TwigRenderer") {
+            $renderer->addPath('blog', __DIR__ . '/views');
         }
-        elseif (get_class($renderer) == "Framework\Renderer\TwigRenderer"){
-            $this->renderer->addPath('blog', __DIR__.'/views');
-        }
-        $router->get('/blog', [$this, 'index'], 'blog.index');
-        $router->get('/blog/{slug:[a-z\-0-9]+}', [$this, 'show'], 'blog.show');
-    }
-
-    public function index(Request $request): string
-    {
-        return $this->renderer->render('@blog/index');
-    }
-
-    public function show(Request $request): string
-    {
-        return $this->renderer->render(
-            '@blog/show',
-            [
-                'slug' => $request->getAttribute('slug')
-            ]
-        );
+        $router->get($prefix, BlogAction::class, 'blog.index');
+        $router->get($prefix . '/{slug:[a-z\-0-9]+}', BlogAction::class, 'blog.show');
     }
 }
