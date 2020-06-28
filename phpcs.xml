@@ -5,5 +5,7 @@
     <arg value="p"/>
     <file>src</file>
     <file>public/index.php</file>
-    <rule ref="PSR2"></rule>
+    <rule ref="PSR2">
+        <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+    </rule>
 </ruleset>

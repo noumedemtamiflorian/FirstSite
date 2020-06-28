@@ -5,6 +5,10 @@ use  Framework\Renderer\TwigRendererFactory;
 use   Framework\Router;
 
 return [
+    'database.host' => 'localhost',
+    'database.username' => 'root',
+    'database.password' => 'saintjude',
+    'database.name' => 'monsupersite',
     'twig.extensions' =>[
         \DI\get(Router\RoutetTwigExtension::class)
     ] ,
