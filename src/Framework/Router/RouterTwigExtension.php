@@ -5,7 +5,7 @@ namespace Framework\Router;
 use Framework\Router;
 use Twig\TwigFunction;
 
-class RoutetTwigExtension extends \Twig\Extension\AbstractExtension
+class RouterTwigExtension extends \Twig\Extension\AbstractExtension
 {
     /**
      * @var Router

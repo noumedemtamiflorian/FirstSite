@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/src/css/Framework/bootstrap-4.4.1-dist/bootstrap-4.4.1-dist/css/bootstrap.css">
+    <script src="/src/js/framework/jquery-3.4.1.js"></script>
+    <script src="/src/js/framework/jquery.timeago.js"></script>
     <title>{% block title "Mon site" %}</title>
+    <script>
+        $(document).ready(function () {
+            $(".timeago").timeago();
+        });
+    </script>
 </head>
 <body>
+
 <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Mon Super site</a>
     <ul class="nav navbar-nav">

@@ -2,7 +2,8 @@
 
 namespace Framework\Renderer;
 
-use Framework\Router\RoutetTwigExtension;
+use App\Framework\Twig\pagerFantaExtension;
+use Framework\Router\RouterTwigExtension;
 use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -16,7 +17,7 @@ class TwigRendererFactory
         $twig = new Environment($loader, []);
         if ($container->has('twig.extensions')) {
             foreach ($container->get('twig.extensions') as $extension) {
-                $twig->addExtension($container->get(RoutetTwigExtension::class));
+                $twig->addExtension($container->get(get_class($extension)));
             }
         }
         return new  TwigRenderer($loader, $twig);

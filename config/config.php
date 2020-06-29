@@ -1,8 +1,11 @@
 <?php
 
+use App\Framework\Twig\pagerFantaExtension;
+use App\Framework\Twig\TextEntension;
 use    Framework\Renderer\TwigRenderer;
 use  Framework\Renderer\TwigRendererFactory;
 use   Framework\Router;
+use Framework\Router\RouterTwigExtension;
 use  Psr\Container\ContainerInterface;
 use  App\Blog\Table\PostTable;
 
@@ -12,7 +15,10 @@ return [
     'database.password' => 'saintjude',
     'database.name' => 'monsupersite',
     'twig.extensions' => [
-        \DI\get(Router\RoutetTwigExtension::class)
+        \DI\get(RouterTwigExtension::class),
+        \DI\get(pagerFantaExtension::class),
+        \DI\get(TextEntension::class),
+        \DI\get(\App\Framework\Twig\TimeExtension::class)
     ],
     'view.path' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views',
 

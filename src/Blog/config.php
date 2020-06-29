@@ -9,7 +9,7 @@ use App\Blog\Table\PostTable;
 
 return
     [
-        'blog.prefix' => '/blog',
+        'blog.prefix' => '/news',
         BlogModule::class => function (ContainerInterface $container) {
             return new BlogModule($container->get('blog.prefix'), $container->get(Router::class), $container->get(TwigRenderer::class));
         },
