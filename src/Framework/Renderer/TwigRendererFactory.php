@@ -20,6 +20,6 @@ class TwigRendererFactory
                 $twig->addExtension($container->get(get_class($extension)));
             }
         }
-        return new  TwigRenderer($loader, $twig);
+        return new  TwigRenderer($twig);
     }
 }

@@ -1,9 +1,11 @@
 <?php
 
 namespace Tests\Framework;
+require dirname(dirname(__DIR__)) . "/vendor/autoload.php";
 
 use Framework\PHPRenderer;
 use PHPUnit\Framework\TestCase;
+
 
 class PHPRendererTest extends TestCase
 {
@@ -38,7 +40,7 @@ class PHPRendererTest extends TestCase
 
     public function testGlobalParamters()
     {
-        $this->renderer->addGlobal('nom','Marc');
+        $this->renderer->addGlobal('nom', 'Marc');
         $content = $this->renderer->render('demoparams');
         $this->assertEquals('salut Marc', $content);
     }

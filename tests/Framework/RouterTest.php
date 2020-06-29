@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Framework;
+require dirname(dirname(__DIR__)) . "/vendor/autoload.php";
 
 use Framework\Router;
 use GuzzleHttp\Psr7\Request;
@@ -58,6 +59,7 @@ class  RouterTest extends TestCase
         $route = $this->router->match(new ServerRequest('GET', '/blog/mon-slug-8'));
         $this->assertEquals(null . $route);
     }
+
     public function testGenerateUri()
     {
         $this->router->get('/blog', function () {

@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Blog\BloActions;
+require dirname(dirname(dirname(__DIR__))) . "/vendor/autoload.php";
 
 use App\Blog\Actions\BlogAction;
 use Framework\Renderer\RendererInterface;
@@ -32,7 +33,7 @@ class  BlogActionTest extends TestCase
     public function setUp(): void
     {
         $this->renderer = $this->prophesize(RendererInterface::class);
-        $this->renderer-render()->willReturn('');
+        $this->renderer - render()->willReturn('');
         $this->pdo = $this->prophesize(\PDO::class);
         $this->router = $this->prophesize(Router::class);
         $this->action = new BlogAction(
@@ -47,7 +48,7 @@ class  BlogActionTest extends TestCase
         $request = (new ServerRequest('GET', '/'))
             ->withAttribute('id', 9)
             ->withAttribute('slug', 'demo');
-        $response = call_user_func_array( $this->action , [$request]);
+        $response = call_user_func_array($this->action, [$request]);
         $this->assertEquals('301', $response->getStatusCode());
     }
 }

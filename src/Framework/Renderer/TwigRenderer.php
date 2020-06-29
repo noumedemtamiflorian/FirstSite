@@ -10,11 +10,9 @@ class TwigRenderer implements RendererInterface
 {
 
     private $twig;
-    private $loader;
 
-    public function __construct(FilesystemLoader $loader, Environment $twig)
+    public function __construct(Environment $twig)
     {
-        $this->loader = $loader;
         $this->twig = $twig;
     }
 
@@ -23,13 +21,11 @@ class TwigRenderer implements RendererInterface
      * permet de rajouter un chemin pour changer les vues
      * @param string $namespace
      * @param string|null $path
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig_Error_Loader
      */
     public function addPath(string $namespace, ?string $path = null): void
     {
 
-        $this->loader->addPath($path, $namespace);
+        $this->twig->getLoader()->addPath($path, $namespace);
     }
 
 

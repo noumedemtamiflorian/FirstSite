@@ -1,12 +1,12 @@
 {% extends 'layout.twig' %}
-{% block title "Mes Article " %}
+{% block title "Mes Articles" %}
 {% block body %}
     <h1>Bienvenue sur le blog</h1>
     <div class="row">
-        {% for row in posts | batch(4) %}
+        {% for row in posts | batch(5) %}
             <div class="card-deck">
                 {% for post in row %}
-                    <div class="card">
+                    <div class="card my-2 mx-2">
                         <div class="card-header">
                             <h5><a href="{{ path('blog.show',{slug: post.slug , id: post.id }) }}">
                                     {{ post.name }}
