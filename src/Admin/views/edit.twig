@@ -1,0 +1,9 @@
+{% extends '@admin/template/layout.twig' %}
+{% block title "Edition de l'article" %}
+{% block body %}
+    <h1>Editer l'article {{ item.name }}</h1>
+    <form action="{{ path('admin.edit',{id: item.id}) }}" method="post">
+        {% include '@admin/form.twig' %}
+        <button class="btn btn-primary" type="submit">Editer</button>
+    </form>
+{% endblock %}

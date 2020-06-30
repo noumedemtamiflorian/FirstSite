@@ -39,6 +39,13 @@ class App
 
     public function run(ServerRequestInterface $request): ResponseInterface
     {
+        $pasedBody = $request->getParsedBody();
+        if ((array_key_exists('_method', $pasedBody)) &&
+            in_array($pasedBody['_method'], ['PUT', 'DELETE'])
+        ) {
+            $request = $request->withMethod($pasedBody['_method']);
+        }
+
         $uri = $request->getUri()->getPath();
         if (!empty($uri) && $uri[-1] === "/") {
             return (new Response())

@@ -1,0 +1,30 @@
+{% extends '@admin/template/layout.twig' %}
+{% block title "Editer les Articles" %}
+{% block body %}
+    <p class="text-right mt-3">
+        <a href="{{ path('admin.create') }}" class="btn btn-primary">Ajouter un Article</a>
+    </p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td>Titre</td>
+            <td>Actions</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td class="d-flex">
+                    <a href="{{ path('admin.edit',{id: item.id}) }}" class="btn btn-primary mr-4">Editer</a>
+                    <form action="{{ path('admin.delete',{id: item.id}) }}" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="btn btn-danger" type="submit">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ paginate(items,'admin.index') }}
+{% endblock %}

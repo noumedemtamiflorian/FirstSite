@@ -2,6 +2,7 @@
 
 namespace Framework;
 
+use App\Admin\Action\AdminAction;
 use Framework\Router\MiddlewareApp;
 use Framework\Router\Route;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -25,19 +26,50 @@ class Router
         $this->router = new FastRouteRouter();
     }
 
+
     /**
      * @param string $path
-     * @param callable $callable
-     * @param string $name
+     * @param $callable
+     * @param string|null $name
      */
-    public function get(string $path, $callable, string $name)
+    public function get(string $path, $callable, ?string $name = null)
     {
         $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['GET'], $name));
     }
 
 
     /**
-     * @param ServerRequest $request
+     * @param string $path
+     * @param $callable
+     * @param string|null $name
+     */
+    public function post(string $path, $callable, ?string $name = null)
+    {
+        $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['POST'], $name));
+    }
+
+    /**
+     * @param string $path
+     * @param $callable
+     * @param string|null $name
+     */
+    public function delete(string $path, $callable, ?string $name = null)
+    {
+        $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['DELETE'], $name));
+    }
+
+    public function crud(string $prefix, $callable, string $prefixName)
+    {
+        $this->get("$prefix/posts", $callable, "$prefixName.index");
+        $this->get("$prefix/{id:\d+}", $callable, "$prefixName.edit");
+        $this->post("$prefix/{id:\d+}", $callable);
+        $this->get("$prefix/new", $callable, "$prefixName.create");
+        $this->post("$prefix/new", $callable);
+        $this->delete("$prefix/{id:\d+}", $callable, "$prefixName.delete");
+    }
+
+    /**
+     * @param ServerRequestInterface $request
      * @return Route|null
      */
     public function match(ServerRequestInterface $request): ?Route
