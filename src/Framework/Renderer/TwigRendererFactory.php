@@ -2,8 +2,6 @@
 
 namespace Framework\Renderer;
 
-use App\Framework\Twig\pagerFantaExtension;
-use Framework\Router\RouterTwigExtension;
 use Psr\Container\ContainerInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;

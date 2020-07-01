@@ -1,7 +1,16 @@
 <?php
 
+use App\Framework\Session\FlashService;
+use App\Framework\Session\PHPSession;
+use App\Framework\Session\SessionInterface;
+use App\Framework\Twig\FlashExtension;
 use App\Framework\Twig\pagerFantaExtension;
 use App\Framework\Twig\TextEntension;
+use App\Framework\Twig\TimeExtension;
+use function DI\factory;
+use function DI\get;
+use function DI\object;
+use Framework\Renderer\RendererInterface;
 use    Framework\Renderer\TwigRenderer;
 use  Framework\Renderer\TwigRendererFactory;
 use   Framework\Router;
@@ -15,19 +24,16 @@ return [
     'database.password' => 'saintjude',
     'database.name' => 'monsupersite',
     'twig.extensions' => [
-        \DI\get(RouterTwigExtension::class),
-        \DI\get(pagerFantaExtension::class),
-        \DI\get(TextEntension::class),
-        \DI\get(\App\Framework\Twig\TimeExtension::class)
+        get(RouterTwigExtension::class),
+        get(pagerFantaExtension::class),
+        get(TextEntension::class),
+        get(TimeExtension::class),
+        get(FlashExtension::class)
     ],
     'view.path' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views',
-
-
-    TwigRenderer::class => \DI\factory(TwigRendererFactory::class),
-
-
-    Router::class => \DI\object(),
-
+    SessionInterface::class => object(PHPSession::class),
+    TwigRenderer::class => factory(TwigRendererFactory::class),
+    RendererInterface::class => object(TwigRenderer::class),
     \PDO::class => function (ContainerInterface $container) {
         return new PDO(
             'mysql:host=' . $container->get('database.host')
@@ -40,8 +46,6 @@ return [
             ]
         );
     },
-
-
     PostTable::class => function (ContainerInterface $container) {
         return new  PostTable($container->get(PDO::class));
     }

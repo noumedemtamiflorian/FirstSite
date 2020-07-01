@@ -3,6 +3,8 @@
 namespace App\Admin\Action;
 
 use App\Blog\Table\PostTable;
+use App\Framework\Session\FlashService;
+use App\Framework\Session\SessionInterface;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -20,14 +22,23 @@ class AdminAction
      * @var PostTable
      */
     private $postTable;
+    /**
+     * @var FlashService
+     */
+    private $flash;
 
     use RouterAwareAction;
 
-    public function __construct(RendererInterface $renderer, Router $router, PostTable $postTable)
-    {
+    public function __construct(
+        RendererInterface $renderer,
+        Router $router,
+        PostTable $postTable,
+        FlashService $flash
+    ) {
         $this->renderer = $renderer;
         $this->router = $router;
         $this->postTable = $postTable;
+        $this->flash = $flash;
     }
 
     public function __invoke(Request $request)
@@ -66,6 +77,7 @@ class AdminAction
             $params = $this->getParams($request);
             $params['updated_at'] = date('Y-m-d H:i:s');
             $this->postTable->update($item->id, $params);
+            $this->flash->typeOfFlash('modifie', 'L\'article a bien ete modifie');
             return $this->redirect('admin.index');
         }
         return $this->renderer->render('@admin/edit', compact('item'));
@@ -79,6 +91,7 @@ class AdminAction
             $params['created_at'] = date('Y-m-d H:i:s');
             $params['updated_at'] = date('Y-m-d H:i:s');
             $this->postTable->insert($params);
+            $this->flash->typeOfFlash('ajouter', 'L\'article a bien ete Ajouter');
             return $this->redirect('admin.index');
         }
         return $this->renderer->render('@admin/create');
@@ -87,6 +100,7 @@ class AdminAction
     public function delete(Request $request)
     {
         $this->postTable->delete($request->getAttribute('id'));
+        $this->flash->typeOfFlash('supprimer', 'L\'article a bien ete supprimer');
         return $this->redirect('admin.index');
     }
 

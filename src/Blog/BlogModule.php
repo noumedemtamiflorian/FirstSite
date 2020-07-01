@@ -27,9 +27,5 @@ class BlogModule extends Module
         }
         $router->get($prefix, BlogAction::class, 'blog.index');
         $router->get($prefix . '/{slug:[a-z\-0-9]+}-{id:[0-9]+}', BlogAction::class, 'blog.show');
-        if ($container->has('admin.prefix')) {
-            $prefix = $container->get('admin.prefix');
-            $router->crud($prefix, AdminAction::class, 'admin');
-        }
     }
 }
