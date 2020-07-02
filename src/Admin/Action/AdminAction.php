@@ -5,6 +5,7 @@ namespace App\Admin\Action;
 use App\Blog\Table\PostTable;
 use App\Framework\Session\FlashService;
 use App\Framework\Session\SessionInterface;
+use App\Framework\Validator;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -34,7 +35,8 @@ class AdminAction
         Router $router,
         PostTable $postTable,
         FlashService $flash
-    ) {
+    )
+    {
         $this->renderer = $renderer;
         $this->router = $router;
         $this->postTable = $postTable;
@@ -76,11 +78,17 @@ class AdminAction
         if ($request->getMethod() == 'POST') {
             $params = $this->getParams($request);
             $params['updated_at'] = date('Y-m-d H:i:s');
-            $this->postTable->update($item->id, $params);
-            $this->flash->typeOfFlash('modifie', 'L\'article a bien ete modifie');
-            return $this->redirect('admin.index');
+            $validator = $this->getValidator($request);
+            if ($validator->isValid()) {
+                $this->postTable->update($item->id, $params);
+                $this->flash->typeOfFlash('modifie', 'L\'article a bien ete modifie');
+                return $this->redirect('admin.index');
+            }
+            $errors = $validator->getErrors();
+            $params['id'] = $item->id;
+            $item = $params;
         }
-        return $this->renderer->render('@admin/edit', compact('item'));
+        return $this->renderer->render('@admin/edit', compact('item','errors'));
     }
 
     public function create(Request $request)
@@ -90,11 +98,16 @@ class AdminAction
             $params = $this->getParams($request);
             $params['created_at'] = date('Y-m-d H:i:s');
             $params['updated_at'] = date('Y-m-d H:i:s');
-            $this->postTable->insert($params);
-            $this->flash->typeOfFlash('ajouter', 'L\'article a bien ete Ajouter');
-            return $this->redirect('admin.index');
+            $validator = $this->getValidator($request);
+            if ($validator->isValid()) {
+                $this->postTable->insert($params);
+                $this->flash->typeOfFlash('ajouter', 'L\'article a bien ete Ajouter');
+                return $this->redirect('admin.index');
+            }
+            $errors = $validator->getErrors();
+            $item = $params;
         }
-        return $this->renderer->render('@admin/create');
+        return $this->renderer->render('@admin/create',compact('errors'));
     }
 
     public function delete(Request $request)
@@ -110,4 +123,15 @@ class AdminAction
             return in_array($key, ['name', 'content', 'slug']);
         }, ARRAY_FILTER_USE_KEY);
     }
+
+    private function getValidator(Request $request)
+    {
+        return  (new  Validator($request->getParsedBody()))
+            ->required('content','name','slug')
+            ->length('content',10)
+            ->length('name',2,250)
+            ->length('slug',2,50)
+            ->slug('slug');
+    }
+
 }
