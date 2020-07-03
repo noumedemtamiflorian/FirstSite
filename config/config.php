@@ -1,9 +1,9 @@
 <?php
 
-use App\Framework\Session\FlashService;
 use App\Framework\Session\PHPSession;
 use App\Framework\Session\SessionInterface;
 use App\Framework\Twig\FlashExtension;
+use App\Framework\Twig\FormExtension;
 use App\Framework\Twig\pagerFantaExtension;
 use App\Framework\Twig\TextEntension;
 use App\Framework\Twig\TimeExtension;
@@ -13,7 +13,6 @@ use function DI\object;
 use Framework\Renderer\RendererInterface;
 use    Framework\Renderer\TwigRenderer;
 use  Framework\Renderer\TwigRendererFactory;
-use   Framework\Router;
 use Framework\Router\RouterTwigExtension;
 use  Psr\Container\ContainerInterface;
 use  App\Blog\Table\PostTable;
@@ -28,6 +27,7 @@ return [
         get(pagerFantaExtension::class),
         get(TextEntension::class),
         get(TimeExtension::class),
+        get(FormExtension::class),
         get(FlashExtension::class)
     ],
     'view.path' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views',

@@ -1,16 +1,4 @@
-<pre>
-{{ dump(errors) }}
-</pre>
-
-<div class="form-group">
-    <label for="name">Titre de l'article</label>
-    <input type="text" class="form-control" name="name" id="name" value="{{ item.name }}">
-</div>
-<div class="form-group">
-    <label for="slug">Slug</label>
-    <input type="text" class="form-control" name="slug" id="slug" value="{{ item.slug }}">
-</div>
-<div class="form-group">
-    <label for="content">Contenu</label>
-    <textarea name="content" id="content" class="form-control" cols="30" rows="10">{{ item.content }}</textarea>
-</div>
+{{ flied('name',item.name,'Titre de l\'article') }}
+{{ flied('slug',item.slug,'Lien') }}
+{{ flied('content',item.content,'content',{type: 'textarea'}) }}
+{{ flied('created_at',item.created_at,'Date de creation ') }}

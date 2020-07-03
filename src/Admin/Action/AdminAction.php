@@ -35,8 +35,7 @@ class AdminAction
         Router $router,
         PostTable $postTable,
         FlashService $flash
-    )
-    {
+    ) {
         $this->renderer = $renderer;
         $this->router = $router;
         $this->postTable = $postTable;
@@ -73,11 +72,10 @@ class AdminAction
      */
     public function edit(Request $request)
     {
+        $errors = null;
         $item = $this->postTable->find($request->getAttribute('id'));
-
         if ($request->getMethod() == 'POST') {
             $params = $this->getParams($request);
-            $params['updated_at'] = date('Y-m-d H:i:s');
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
                 $this->postTable->update($item->id, $params);
@@ -88,16 +86,14 @@ class AdminAction
             $params['id'] = $item->id;
             $item = $params;
         }
-        return $this->renderer->render('@admin/edit', compact('item','errors'));
+        return $this->renderer->render('@admin/edit', compact('item', 'errors'));
     }
 
     public function create(Request $request)
     {
-
+        $errors = $item = null;
         if ($request->getMethod() == 'POST') {
             $params = $this->getParams($request);
-            $params['created_at'] = date('Y-m-d H:i:s');
-            $params['updated_at'] = date('Y-m-d H:i:s');
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
                 $this->postTable->insert($params);
@@ -107,7 +103,7 @@ class AdminAction
             $errors = $validator->getErrors();
             $item = $params;
         }
-        return $this->renderer->render('@admin/create',compact('errors'));
+        return $this->renderer->render('@admin/create', compact('errors', 'item'));
     }
 
     public function delete(Request $request)
@@ -119,19 +115,25 @@ class AdminAction
 
     private function getParams(Request $request)
     {
-        return array_filter($request->getParsedBody(), function ($key) {
-            return in_array($key, ['name', 'content', 'slug']);
+        $params = array_filter($request->getParsedBody(), function ($key) {
+            return in_array($key, ['name', 'content', 'slug', 'created_at']);
         }, ARRAY_FILTER_USE_KEY);
+        $params = array_merge(
+            $params,
+            [
+                'updated_at' => date('Y-m-d H:i:s')
+            ]
+        );
     }
 
     private function getValidator(Request $request)
     {
-        return  (new  Validator($request->getParsedBody()))
-            ->required('content','name','slug')
-            ->length('content',10)
-            ->length('name',2,250)
-            ->length('slug',2,50)
-            ->slug('slug');
+        return (new  Validator($request->getParsedBody()))
+            ->required('content', 'name', 'slug')
+            ->length('content', 10)
+            ->length('name', 2, 250)
+            ->length('slug', 2, 50)
+            ->slug('slug')
+            ->dateTime('created_at');
     }
-
 }

@@ -15,7 +15,7 @@
         {% for item in items %}
             <tr>
                 <td>{{ item.name }}</td>
-                <td class="d-flex justify-content-around">
+                <td class="d-flex jus">
                     <a href="{{ path('admin.edit',{id: item.id}) }}" class="btn btn-primary mr-4">Editer</a>
                     <form action="{{ path('admin.delete',{id: item.id}) }}" method="POST">
                         <input type="hidden" name="_method" value="DELETE">

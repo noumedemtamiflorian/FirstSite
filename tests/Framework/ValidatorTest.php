@@ -53,14 +53,14 @@ class ValidatorTest extends TestCase
         $errors = $this->makeValidator([
             'slug' => 'aze-aze-azeAze34',
             'slug2' => 'aze-aze-azeAze34',
-            'slug3' => 'aze--aze-aze'
+            'slug3' => 'aze'
         ])
             ->slug('slug')
             ->slug('slug2')
             ->slug('slug3')
-            ->slug('slug4')
             ->getErrors();
-        $this->assertCount(3, $errors);
+        $this->assertCount(2, $errors);
+        $this->assertEquals(['slug','slug2'], array_keys($errors));
 
     }
 

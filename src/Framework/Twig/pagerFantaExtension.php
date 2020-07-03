@@ -33,12 +33,12 @@ class pagerFantaExtension extends AbstractExtension
         $view = new  TwitterBootstrap4View();
          return $view->render(
              $paginatedResults,
-                function (int $page) use ($route, $queryArgs) {
-                    if ($page > 1) {
-                        $queryArgs['p'] = $page;
-                    }
-                    return $this->router->generateUri($route, [], $queryArgs);
-                }
+             function (int $page) use ($route, $queryArgs) {
+                 if ($page > 1) {
+                     $queryArgs['p'] = $page;
+                 }
+                 return $this->router->generateUri($route, [], $queryArgs);
+             }
          );
     }
 }

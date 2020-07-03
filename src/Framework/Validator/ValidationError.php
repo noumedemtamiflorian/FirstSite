@@ -3,7 +3,6 @@
 
 namespace App\Framework\Validator;
 
-
 class ValidationError
 {
     private $key;
@@ -22,7 +21,7 @@ class ValidationError
      */
     private $params;
 
-    public function __construct(string $key, string $rule,array  $params)
+    public function __construct(string $key, string $rule, array  $params)
     {
         $this->key = $key;
         $this->rule = $rule;
@@ -31,7 +30,7 @@ class ValidationError
 
     public function __toString()
     {
-        $params = array_merge([$this->messages[$this->rule],$this->key],$this->params);
-        return (string)call_user_func_array('sprintf',$params);
+        $params = array_merge([$this->messages[$this->rule],$this->key], $this->params);
+        return (string)call_user_func_array('sprintf', $params);
     }
 }

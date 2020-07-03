@@ -5,7 +5,6 @@ namespace App\Admin;
 
 use App\Admin\Action\AdminAction;
 use Framework\Module;
-use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRenderer;
 use Framework\Router;
 use Psr\Container\ContainerInterface;

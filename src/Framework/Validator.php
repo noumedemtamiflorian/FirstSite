@@ -3,7 +3,6 @@
 
 namespace App\Framework;
 
-
 use App\Framework\Validator\ValidationError;
 use DateTime;
 
@@ -87,25 +86,26 @@ class Validator
     public function slug(string $key)
     {
         $value = $this->getValue($key);
-        $pattern = '#^([a-z0-9]+-?)+$#';
+        $pattern = '#^[a-z0-9]+(-[a-z0-9]+)*$#';
         if (!is_null($value) && !preg_match($pattern, $value)) {
             $this->addError($key, 'slug');
         }
         return $this;
     }
 
-    public function dateTime(string $key,string  $format = 'Y-m-d H:i:s')
+    public function dateTime(string $key, string  $format = 'Y-m-d H:i:s')
     {
         $value = $this->getValue($key);
         $dateTime = DateTime::createFromFormat($format, $value);
         $errors = DateTime::getLastErrors();
         if ($errors['error_count'] > 0 || $errors['warning_count'] > 0 || $dateTime == false) {
-            $this->addError($key, 'datetime',[$format]);
+            $this->addError($key, 'datetime', [$format]);
         }
         return $this;
     }
 
-    public function  isValid(){
+    public function isValid()
+    {
         return empty($this->errors);
     }
     /**
@@ -129,7 +129,6 @@ class Validator
     private function addError(string $key, string $rule, array $params = []): void
     {
         $this->errors[$key] = new  ValidationError($key, $rule, $params);
-
     }
 
     private function getValue(string $key)
