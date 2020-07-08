@@ -6,8 +6,9 @@ require dirname(dirname(__DIR__)) . "/vendor/autoload.php";
 use App\Framework\Validator;
 use function DI\string;
 use PHPUnit\Framework\TestCase;
+use Tests\DatabaseTestCase;
 
-class ValidatorTest extends TestCase
+class ValidatorTest extends DatabaseTestCase
 {
     public function makeValidator(array $params)
     {
@@ -60,7 +61,7 @@ class ValidatorTest extends TestCase
             ->slug('slug3')
             ->getErrors();
         $this->assertCount(2, $errors);
-        $this->assertEquals(['slug','slug2'], array_keys($errors));
+        $this->assertEquals(['slug', 'slug2'], array_keys($errors));
 
     }
 
@@ -89,10 +90,23 @@ class ValidatorTest extends TestCase
 
     public function testDateTime()
     {
-        $this->assertCount(0,$this->makeValidator(['date' => '2012-12-12 11:12:13'])->dateTime('date')->getErrors());
-        $this->assertCount(0,$this->makeValidator(['date' => '2012-12-12 00:00:00'])->dateTime('date')->getErrors());
-        $this->assertCount(1,$this->makeValidator(['date' => '2012-21-12'])->dateTime('date')->getErrors());
-        $this->assertCount(0,$this->makeValidator(['date' => '2013-02-28 11:12:13'])->dateTime('date')->getErrors());
-        $this->assertCount(0,$this->makeValidator(['date' => '2013-12-11 11:12:13'])->dateTime('date')->getErrors());
+        $this->assertCount(0, $this->makeValidator(['date' => '2012-12-12 11:12:13'])->dateTime('date')->getErrors());
+        $this->assertCount(0, $this->makeValidator(['date' => '2012-12-12 00:00:00'])->dateTime('date')->getErrors());
+        $this->assertCount(1, $this->makeValidator(['date' => '2012-21-12'])->dateTime('date')->getErrors());
+        $this->assertCount(0, $this->makeValidator(['date' => '2013-02-28 11:12:13'])->dateTime('date')->getErrors());
+        $this->assertCount(0, $this->makeValidator(['date' => '2013-12-11 11:12:13'])->dateTime('date')->getErrors());
+    }
+
+    public function testExists()
+    {
+        $pdo =  $this->getPDO();
+        $pdo->exec("CREATE TABLE test (
+           id integer primary key autoincrement ,
+           name varchar(255)
+        )");
+        $pdo->exec("INSERT INTO test (name) VALUES ('a1')");
+        $pdo->exec("INSERT INTO test (name) VALUES ('a1')");
+        $this->assertTrue($this->makeValidator(['category'=>1])->exists('category','test',$pdo)->isValid());
+        $this->assertFalse($this->makeValidator(['category'=>22])->exists('category','test',$pdo)->isValid());
     }
 }

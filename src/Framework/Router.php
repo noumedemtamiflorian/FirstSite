@@ -2,7 +2,7 @@
 
 namespace Framework;
 
-use App\Admin\Action\AdminAction;
+use App\Admin\Action\PostCrudAction;
 use Framework\Router\MiddlewareApp;
 use Framework\Router\Route;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -58,9 +58,9 @@ class Router
         $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['DELETE'], $name));
     }
 
-    public function crud(string $prefix, $callable, string $prefixName)
+    public function crudPost(string $prefix, $callable, string $prefixName)
     {
-        $this->get("$prefix/posts", $callable, "$prefixName.index");
+        $this->get("$prefix", $callable, "$prefixName.index");
         $this->get("$prefix/{id:\d+}", $callable, "$prefixName.edit");
         $this->post("$prefix/{id:\d+}", $callable);
         $this->get("$prefix/new", $callable, "$prefixName.create");

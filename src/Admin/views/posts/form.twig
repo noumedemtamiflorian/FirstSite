@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-md-4">
+        {{ flied('name',item.name,'Titre de l\'article') }}
+    </div>
+    <div class="col-md-4">
+        {{ flied('slug',item.slug,'Slug') }}
+
+    </div>
+    <div class="col-md-4">
+        {{ flied('category_id',item.category_id,'categorie',{options: categories}) }}
+    </div>
+</div>
+{{ flied('content',item.content,'content',{type: 'textarea'}) }}
+{{ flied('created_at',item.created_at,'Date de creation ') }}

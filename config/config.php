@@ -1,5 +1,6 @@
 <?php
 
+use App\Blog\Table\CategoryTable;
 use App\Framework\Session\PHPSession;
 use App\Framework\Session\SessionInterface;
 use App\Framework\Twig\FlashExtension;
@@ -20,7 +21,7 @@ use  App\Blog\Table\PostTable;
 return [
     'database.host' => 'localhost',
     'database.username' => 'root',
-    'database.password' => 'saintjude',
+    'database.password' => '',
     'database.name' => 'monsupersite',
     'twig.extensions' => [
         get(RouterTwigExtension::class),
@@ -48,5 +49,8 @@ return [
     },
     PostTable::class => function (ContainerInterface $container) {
         return new  PostTable($container->get(PDO::class));
+    },
+   CategoryTable::class => function (ContainerInterface $container) {
+        return new  CategoryTable($container->get(PDO::class));
     }
 ];

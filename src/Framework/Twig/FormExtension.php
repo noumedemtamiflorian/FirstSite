@@ -4,6 +4,7 @@
 namespace App\Framework\Twig;
 
 use DateTime;
+use function DI\string;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -28,7 +29,7 @@ class FormExtension extends AbstractExtension
         $class = 'form-group';
         $value = $this->convertValue($value);
         $attributes = [
-            'class' => trim('form-control '.($options['class'] ?? '')),
+            'class' => trim('form-control ' . ($options['class'] ?? '')),
             'id' => $key,
             'name' => $key
         ];
@@ -38,6 +39,8 @@ class FormExtension extends AbstractExtension
         }
         if ($type == 'textarea') {
             $input = $this->textarea($value, $attributes);
+        } elseif (array_key_exists('options', $options)) {
+            $input = $this->select($value, $options['options'], $attributes);
         } else {
             $input = $this->input($value, $attributes);
         }
@@ -68,11 +71,26 @@ class FormExtension extends AbstractExtension
         return "<input type=\"text\" " . $this->getHtmlFromArray($attributes) . " value=\"$value\">";
     }
 
+    private function select($value, array $options, array $attributes)
+    {
+        $htmlOptions = array_reduce(array_keys($options), function (string $html, string $key) use ($options, $value) {
+            $params = ['value' => $key, 'selected' => ($key == $value)];
+            return $html . '<option ' . $this->getHtmlFromArray($params) . '>' . $options[$key] . '</option>';
+        }, "");
+        return "<select  " . $this->getHtmlFromArray($attributes) . ">$htmlOptions</select>";
+    }
+
     private function getHtmlFromArray(array $attributes)
     {
-        return implode(' ', array_map(function ($key, $value) {
-            return "$key=\"$value\"";
-        }, array_keys($attributes), $attributes));
+        $htmlParts = [];
+        foreach ($attributes as $key => $value) {
+            if ($value === true) {
+                $htmlParts[] = (string)$key;
+            } elseif ($value !== false) {
+                $htmlParts[] = "$key=\"$value\"";
+            }
+        }
+        return implode(' ', $htmlParts);
     }
 
     private function convertValue($value)

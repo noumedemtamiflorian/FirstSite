@@ -3,6 +3,7 @@
 
 namespace App\Framework;
 
+use App\Framework\Database\Table;
 use App\Framework\Validator\ValidationError;
 use DateTime;
 
@@ -93,7 +94,7 @@ class Validator
         return $this;
     }
 
-    public function dateTime(string $key, string  $format = 'Y-m-d H:i:s')
+    public function dateTime(string $key, string $format = 'Y-m-d H:i:s')
     {
         $value = $this->getValue($key);
         $dateTime = DateTime::createFromFormat($format, $value);
@@ -104,10 +105,22 @@ class Validator
         return $this;
     }
 
+    public function exists($key, $table, \PDO $pdo)
+    {
+        $id = $this->getValue($key);
+        $statement = $pdo->prepare("SELECT id FROM {$table} WHERE  id = ? ");
+        $statement->execute([$id]);
+        if ($statement->fetchColumn() === false) {
+            $this->addError($key, 'exists', [$table]);
+        }
+        return $this;
+    }
+
     public function isValid()
     {
         return empty($this->errors);
     }
+
     /**
      *
      * Recupere les erreurs

@@ -35,7 +35,7 @@ class PaginatedQuery implements AdapterInterface
      * @param string $countQuery
      * Requete permettant de compter le nombre resultat total
      */
-    public function __construct(PDO $pdo, string $query, string $countQuery, string $entity)
+    public function __construct(PDO $pdo, string $query, string $countQuery, ?string $entity)
     {
         $this->pdo = $pdo;
         $this->query = $query;
@@ -66,7 +66,9 @@ class PaginatedQuery implements AdapterInterface
         $statement = $this->pdo->prepare($this->query . ' LIMIT :offset , :length ');
         $statement->bindParam('offset', $offset, PDO::PARAM_INT);
         $statement->bindParam('length', $length, PDO::PARAM_INT);
-        $statement->setFetchMode(PDO::FETCH_CLASS, $this->entity);
+        if ($this->entity) {
+            $statement->setFetchMode(PDO::FETCH_CLASS, $this->entity);
+        }
         $statement->execute();
         return $statement->fetchAll();
     }

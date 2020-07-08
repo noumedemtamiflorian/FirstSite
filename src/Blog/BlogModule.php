@@ -2,7 +2,7 @@
 
 namespace App\Blog;
 
-use App\Admin\Action\AdminAction;
+use App\Admin\Action\PostCrudAction;
 use App\Blog\Actions\BlogAction;
 use Framework\Module;
 use Framework\Renderer\TwigRenderer;

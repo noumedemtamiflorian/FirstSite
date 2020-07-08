@@ -1,13 +1,14 @@
 {% extends '@admin/template/layout.twig' %}
-{% block title "Editer les Articles" %}
+{% block title "les Articles" %}
 {% block body %}
     <p class="text-right mt-3">
-        <a href="{{ path('admin.create') }}" class="btn btn-primary">Ajouter un Article</a>
+        <a href="{{ path(routePrefix~'.create') }}" class="btn btn-primary">Ajouter un Article</a>
     </p>
     <table class="table table-striped text-center">
         <thead>
         <tr>
             <td>Titre</td>
+            <td>Categorie</td>
             <td>Actions</td>
         </tr>
         </thead>
@@ -15,9 +16,10 @@
         {% for item in items %}
             <tr>
                 <td>{{ item.name }}</td>
-                <td class="d-flex jus">
-                    <a href="{{ path('admin.edit',{id: item.id}) }}" class="btn btn-primary mr-4">Editer</a>
-                    <form action="{{ path('admin.delete',{id: item.id}) }}" method="POST">
+                <td>{{ item.category_name }}</td>
+                <td class="d-flex justify-content-center">
+                    <a href="{{ path(routePrefix~'.edit',{id: item.id}) }}" class="btn btn-primary mr-4">Editer</a>
+                    <form action="{{ path(routePrefix~'.delete',{id: item.id}) }}" method="POST">
                         <input type="hidden" name="_method" value="DELETE">
                         <button class="btn btn-danger" type="submit">Supprimer</button>
                     </form>
@@ -26,5 +28,5 @@
         {% endfor %}
         </tbody>
     </table>
-    {{ paginate(items,'admin.index') }}
+    {{ paginate(items,routePrefix~'.index') }}
 {% endblock %}
