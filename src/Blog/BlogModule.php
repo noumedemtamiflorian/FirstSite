@@ -3,7 +3,9 @@
 namespace App\Blog;
 
 use App\Admin\Action\PostCrudAction;
-use App\Blog\Actions\BlogAction;
+use App\Blog\Actions\CategoryShowAction;
+use App\Blog\Actions\PostIndexAction;
+use App\Blog\Actions\PostShowAction;
 use Framework\Module;
 use Framework\Renderer\TwigRenderer;
 use Framework\Router;
@@ -25,7 +27,8 @@ class BlogModule extends Module
         } elseif (get_class($renderer) == "Framework\Renderer\TwigRenderer") {
             $renderer->addPath('blog', __DIR__ . '/views');
         }
-        $router->get($prefix, BlogAction::class, 'blog.index');
-        $router->get($prefix . '/{slug:[a-z\-0-9]+}-{id:[0-9]+}', BlogAction::class, 'blog.show');
+        $router->get($prefix, PostIndexAction::class, 'blog.index');
+        $router->get($prefix . '/{slug:[a-z\-0-9]+}-{id:[0-9]+}', PostShowAction::class, 'blog.show');
+        $router->get($prefix . '/category/{slug:[a-z\-0-9]+}', CategoryShowAction::class, 'blog.category');
     }
 }

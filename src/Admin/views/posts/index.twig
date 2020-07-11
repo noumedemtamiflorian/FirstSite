@@ -28,5 +28,7 @@
         {% endfor %}
         </tbody>
     </table>
-    {{ paginate(items,routePrefix~'.index') }}
+    <div class="d-flex justify-content-around">
+        {{ paginate(items,routePrefix~'.index') }}
+    </div>
 {% endblock %}

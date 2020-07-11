@@ -3,7 +3,6 @@
 
 namespace App\Framework;
 
-use App\Framework\Database\Table;
 use App\Framework\Validator\ValidationError;
 use DateTime;
 
@@ -108,10 +107,27 @@ class Validator
     public function exists($key, $table, \PDO $pdo)
     {
         $id = $this->getValue($key);
-        $statement = $pdo->prepare("SELECT id FROM {$table} WHERE  id = ? ");
+        $statement = $pdo->prepare("SELECT id FROM {$table} WHERE id = ? ");
         $statement->execute([$id]);
         if ($statement->fetchColumn() === false) {
             $this->addError($key, 'exists', [$table]);
+        }
+        return $this;
+    }
+
+    public function unique(string $key, string $table, \PDO $pdo, ?int $exclude = null)
+    {
+        $value = $this->getValue($key);
+        $query = "SELECT id FROM $table WHERE $key = ? ";
+        $params =  [$value];
+        if ($exclude !== null){
+            $query .= " AND id != ? ";
+            $params[] = $exclude;
+        }
+        $statement = $pdo->prepare($query);
+        $statement->execute($params);
+        if ($statement->fetchColumn() !== false) {
+            $this->addError($key, 'unique', [$value]);
         }
         return $this;
     }

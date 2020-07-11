@@ -15,14 +15,15 @@ class ValidationError
         'minLength' => 'Le champs %s doit contenir plus de %d caracteres',
         'maxLength' => 'Le champs %s doit contenir moins de  %d caracteres',
         'datetime' => 'Le champs %s doit etre une date valide (%s)',
-        'exists' => 'Le champs %s n\'exists te pas dans la table $s)'
+        'exists' => 'Le champs %s n\'exists  pas dans la table $s)',
+        'unique' => 'Le champs %s doit etre unique'
     ];
     /**
      * @var array
      */
     private $params;
 
-    public function __construct(string $key, string $rule, array  $params)
+    public function __construct(string $key, string $rule, array $params)
     {
         $this->key = $key;
         $this->rule = $rule;
@@ -31,7 +32,7 @@ class ValidationError
 
     public function __toString()
     {
-        $params = array_merge([$this->messages[$this->rule],$this->key], $this->params);
+        $params = array_merge([$this->messages[$this->rule], $this->key], $this->params);
         return (string)call_user_func_array('sprintf', $params);
     }
 }

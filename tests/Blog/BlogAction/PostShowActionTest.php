@@ -3,18 +3,20 @@
 namespace Tests\Blog\BloActions;
 require dirname(dirname(dirname(__DIR__))) . "/vendor/autoload.php";
 
-use App\Blog\Actions\BlogAction;
+use App\Blog\Actions\PostIndexAction;
+use App\Blog\Actions\PostShowAction;
+use App\Blog\Table\PostTable;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
-class  BlogActionTest extends TestCase
+class  PostShowActionTest extends TestCase
 {
 
     /**
-     * @var BlogAction
+     * @var PostIndexAction
      */
     private $action;
     /**
@@ -29,17 +31,19 @@ class  BlogActionTest extends TestCase
      * @var \Prophecy\Prophecy\ObjectProphecy
      */
     private $pdo;
+    /**
+     * @var \Prophecy\Prophecy\ObjectProphecy
+     */
+    private $postTable;
 
     public function setUp(): void
     {
         $this->renderer = $this->prophesize(RendererInterface::class);
-        $this->renderer - render()->willReturn('');
-        $this->pdo = $this->prophesize(\PDO::class);
-        $this->router = $this->prophesize(Router::class);
-        $this->action = new BlogAction(
+        $this->renderer->render()->willReturn('');
+        $this->postTable = $this->prophesize(PostTable::class);
+        $this->action = new PostShowAction(
             $this->renderer->reveal(),
-            $this->pdo->reveal(),
-            $this->router->reveal()
+            $this->postTable->reveal()
         );
     }
 

@@ -3,6 +3,7 @@
 
 namespace App\Framework\Database;
 
+use mysql_xdevapi\Exception;
 use Pagerfanta\Pagerfanta;
 use PDO;
 
@@ -56,22 +57,40 @@ class Table
         return $list;
     }
 
-    /**
-     *
-     * recupere un element
-     *
-     * @param int $id
-     * @return mixed
-     */
+    public function findAll()
+    {
+        $statement = $this->pdo->query("SELECT * FROM {$this->table}");
+        if ($this->entity) {
+            $statement->setFetchMode(PDO::FETCH_CLASS, $this->entity);
+        } else {
+            $statement->setFetchMode(PDO::FETCH_OBJ);
+        }
+        return $statement->fetchAll();
+    }
+
+    public function findBy(string $field, string $value)
+    {
+       return $this->fecthOrFail("SELECT * FROM {$this->table} WHERE  $field = ? ",[$value]);
+    }
+
     public function find(int $id)
     {
+        return $this->fecthOrFail("SELECT * FROM {$this->table} WHERE id = ? ", [$id]);
 
-        $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = ? ");
-        $query->execute([$id]);
+    }
+
+    protected function fecthOrFail(string $query, array $params = [])
+    {
+        $query = $this->pdo->prepare($query);
+        $query->execute($params);
         if ($this->entity) {
             $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
         }
-        return $query->fetch() ?: null;
+        $record = $query->fetch();
+        if ($record === false) {
+            throw  new NoRecordException();
+        }
+        return $record;
     }
 
     /**
@@ -120,6 +139,13 @@ class Table
         return join(' , ', array_map(function ($field) {
             return "$field = :$field ";
         }, array_keys($params)));
+    }
+
+    public function exists($id)
+    {
+        $statement = $this->pdo->prepare("SELECT id FROM {$this->table} WHERE  id = ? ");
+        $statement->execute([$id]);
+        return $statement->fetchColumn() !== false;
     }
 
     /**

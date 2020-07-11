@@ -36,9 +36,11 @@ class CategoryCrudAction extends CrudAction
     protected function getValidator(Request $request)
     {
         return parent::getValidator($request)
+
             ->required('name', 'slug')
             ->length('name', 2, 250)
             ->length('slug', 2, 50)
+            ->unique('slug',$this->table->getTable(),$this->getTable()->getPdo(),$request->getAttribute('id'))
             ->slug('slug');
     }
 }

@@ -141,4 +141,13 @@ class CrudAction
     {
         return $params;
     }
+
+    /**
+     * @return Table
+     */
+    public function getTable(): Table
+    {
+        return $this->table;
+    }
+
 }
