@@ -2,7 +2,9 @@
 
 namespace Framework;
 
-use Framework\Router\MiddlewareApp;
+use Framework\Router\
+
+MiddlewareApp;
 use Framework\Router\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Expressive\Router\Route as ZendRoute;
@@ -32,7 +34,8 @@ class Router
      */
     public function get(string $path, $callable, ?string $name = null)
     {
-        $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['GET'], $name));
+        $this->router->addRoute(new ZendRoute($path, new
+        MiddlewareApp($callable), ['GET'], $name));
     }
 
 

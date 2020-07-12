@@ -10,9 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class MiddlewareApp implements MiddlewareInterface
 {
 
-    /**
-     * @var callable
-     */
+
     private $callback;
 
     public function __construct($callback)

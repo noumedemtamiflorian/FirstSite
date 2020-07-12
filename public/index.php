@@ -2,27 +2,30 @@
 
 use App\Admin\AdminModule;
 use App\Blog\BlogModule;
-use DI\ContainerBuilder;
+use App\Framework\Middleware\DispatcherMiddleware;
+use App\Framework\Middleware\MethodSlashMiddleware;
+use App\Framework\Middleware\NotFoundMiddleware;
+use App\Framework\Middleware\RouterMiddleware;
+use App\Framework\Middleware\TraillingSlashMiddleware;
 use Framework\App;
+use Framework\Router\MiddlewareApp;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
 use function Http\Response\send;
+use Middlewares\TrailingSlash;
+use Middlewares\Utils\Dispatcher;
+use Middlewares\Whoops;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
-$modules = [
- AdminModule::class,
-  BlogModule::class
-];
-$builder = new ContainerBuilder();
-$builder->addDefinitions(dirname(__DIR__) . '/config/config.php');
-$builder->addDefinitions(dirname(__DIR__) . '/config.php');
-foreach ($modules as $module) {
-    if ($module::DEFINITIONS) {
-        $builder->addDefinitions($module::DEFINITIONS);
-    }
-}
 
-$container = $builder->build();
-$app = new App($container, $modules);
+$app = (new App(dirname(__DIR__) . '/config/config.php'))
+    ->addModule(AdminModule::class)
+    ->addModule(BlogModule::class)
+    ->pipe(TraillingSlashMiddleware::class)
+    ->pipe(MethodSlashMiddleware::class)
+    ->pipe(RouterMiddleware::class)
+    ->pipe(DispatcherMiddleware::class)
+    ->pipe(NotFoundMiddleware::class);
 if (php_sapi_name() !== "cli") {
     $response = $app->run(ServerRequest::fromGlobals());
     send($response);

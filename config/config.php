@@ -1,6 +1,7 @@
 <?php
 
 use App\Blog\Table\CategoryTable;
+use App\Framework\Middleware\DispatcherMiddleware;
 use App\Framework\Session\PHPSession;
 use App\Framework\Session\SessionInterface;
 use App\Framework\Twig\FlashExtension;
@@ -52,5 +53,8 @@ return [
     },
     CategoryTable::class => function (ContainerInterface $container) {
         return new  CategoryTable($container->get(PDO::class));
+    },
+    DispatcherMiddleware::class => function (ContainerInterface $container) {
+        return new   DispatcherMiddleware($container);
     }
 ];
