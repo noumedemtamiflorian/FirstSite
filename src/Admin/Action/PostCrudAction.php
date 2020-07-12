@@ -5,7 +5,6 @@ namespace App\Admin\Action;
 use App\Blog\Entity\Post;
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
-use App\Framework\Actions\CrudAction;
 use App\Framework\Session\FlashService;
 use DateTime;
 use Framework\Renderer\RendererInterface;

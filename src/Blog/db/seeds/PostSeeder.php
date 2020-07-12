@@ -15,7 +15,8 @@ class PostSeeder extends AbstractSeed
      * https://book.cakephp.org/phinx/0/en/seeding.html
      */
     public function run()
-    {   // Seeding des categories
+    {
+   // Seeding des categories
         $data = [];
         $faker = Factory::create('fr_FR');
         for ($i = 0; $i < 5; ++$i) {
@@ -43,6 +44,5 @@ class PostSeeder extends AbstractSeed
         $this->table('posts')
             ->insert($data)
             ->save();
-
     }
 }

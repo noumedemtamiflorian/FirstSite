@@ -120,7 +120,7 @@ class Validator
         $value = $this->getValue($key);
         $query = "SELECT id FROM $table WHERE $key = ? ";
         $params =  [$value];
-        if ($exclude !== null){
+        if ($exclude !== null) {
             $query .= " AND id != ? ";
             $params[] = $exclude;
         }

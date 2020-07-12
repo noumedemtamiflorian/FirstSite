@@ -3,9 +3,6 @@
 
 namespace App\Framework\Database;
 
-
-
-
 class NoRecordException extends \Exception
 {
     public function __construct()

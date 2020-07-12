@@ -21,11 +21,19 @@ class RouterTwigExtension extends \Twig\Extension\AbstractExtension
     {
         return [
             new TwigFunction('path', [$this, 'pathFor'])
+            , new TwigFunction('is_subpath', [$this, 'isSubpath'])
         ];
     }
 
     public function pathFor(string $path, array $params = []): string
     {
         return $this->router->generateUri($path, $params);
+    }
+
+    public function isSubpath(string $path)
+    {
+        $uri = ($_SERVER['REQUEST_URI']) ?? '/';
+        $expectedUri = $this->router->generateUri($path);
+        return strpos($uri, $expectedUri) !== false;
     }
 }

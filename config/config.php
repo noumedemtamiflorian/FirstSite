@@ -50,7 +50,7 @@ return [
     PostTable::class => function (ContainerInterface $container) {
         return new  PostTable($container->get(PDO::class));
     },
-   CategoryTable::class => function (ContainerInterface $container) {
+    CategoryTable::class => function (ContainerInterface $container) {
         return new  CategoryTable($container->get(PDO::class));
     }
 ];

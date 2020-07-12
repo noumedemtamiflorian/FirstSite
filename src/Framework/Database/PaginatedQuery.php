@@ -40,12 +40,12 @@ class PaginatedQuery implements AdapterInterface
      * Requete permettant de compter le nombre resultat total
      */
     public function __construct(
-        PDO $pdo, string $query,
+        PDO $pdo,
+        string $query,
         string $countQuery,
         ?string $entity,
         array $params = []
-    )
-    {
+    ) {
         $this->pdo = $pdo;
         $this->query = $query;
         $this->countQuery = $countQuery;

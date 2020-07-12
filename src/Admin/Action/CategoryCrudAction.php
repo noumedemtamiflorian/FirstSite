@@ -4,7 +4,6 @@
 namespace App\Admin\Action;
 
 use App\Blog\Table\CategoryTable;
-use App\Framework\Actions\CrudAction;
 use App\Framework\Session\FlashService;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -40,7 +39,7 @@ class CategoryCrudAction extends CrudAction
             ->required('name', 'slug')
             ->length('name', 2, 250)
             ->length('slug', 2, 50)
-            ->unique('slug',$this->table->getTable(),$this->getTable()->getPdo(),$request->getAttribute('id'))
+            ->unique('slug', $this->table->getTable(), $this->getTable()->getPdo(), $request->getAttribute('id'))
             ->slug('slug');
     }
 }

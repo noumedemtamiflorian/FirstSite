@@ -24,7 +24,7 @@ class PostIndexAction
 
     use RouterAwareAction;
 
-    public function __construct(RendererInterface $renderer, PostTable $postTable,CategoryTable $categoryTable)
+    public function __construct(RendererInterface $renderer, PostTable $postTable, CategoryTable $categoryTable)
     {
         $this->renderer = $renderer;
         $this->postTable = $postTable;
@@ -35,7 +35,7 @@ class PostIndexAction
     {
         $params = $request->getQueryParams();
         $posts = $this->postTable->findPaginatedPublic(10, $params['p'] ?? 1);
-       $categories = $this->categoryTable->findAll();
-        return $this->renderer->render('@blog/index', compact('posts','categories'));
+        $categories = $this->categoryTable->findAll();
+        return $this->renderer->render('@blog/index', compact('posts', 'categories'));
     }
 }

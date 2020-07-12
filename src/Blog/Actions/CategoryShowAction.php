@@ -3,7 +3,6 @@
 
 namespace App\Blog\Actions;
 
-
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use Framework\Renderer\RendererInterface;
@@ -28,8 +27,7 @@ class CategoryShowAction
         RendererInterface $renderer,
         PostTable $postTable,
         CategoryTable $categoryTable
-    )
-    {
+    ) {
 
         $this->renderer = $renderer;
         $this->postTable = $postTable;
@@ -43,6 +41,6 @@ class CategoryShowAction
         $posts = $this->postTable->findPaginatedPublicForCategory(10, $params['p'] ?? 1, $category->id);
         $categories = $this->categoryTable->findAll();
         $page = $params['p'] ?? 1;
-        return $this->renderer->render('@blog/index', compact('category', 'categories', 'posts','page'));
+        return $this->renderer->render('@blog/index', compact('category', 'categories', 'posts', 'page'));
     }
 }

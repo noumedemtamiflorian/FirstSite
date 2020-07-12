@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Framework\Actions;
+namespace App\Admin\Action;
 
 use App\Framework\Database\Table;
 use App\Framework\Session\FlashService;
@@ -149,5 +149,4 @@ class CrudAction
     {
         return $this->table;
     }
-
 }

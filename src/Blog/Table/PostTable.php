@@ -23,8 +23,8 @@ class PostTable extends Table
             "SELECT p.* , c.name as category_name , c.slug as category_slug 
                     FROM {$this->table} AS p 
                     LEFT  JOIN  categories as c ON c.id = p.category_id
-                    ORDER  BY p.created_at DESC "
-            , "SELECT COUNT(id) FROM {$this->table}",
+                    ORDER  BY p.created_at DESC ",
+            "SELECT COUNT(id) FROM {$this->table}",
             $this->entity
         );
         return (new Pagerfanta($query))
@@ -42,8 +42,8 @@ class PostTable extends Table
                     LEFT  JOIN  categories as c ON c.id = p.category_id
                     WHERE  p.category_id = :category
                     ORDER  BY p.created_at DESC 
-                   "
-            , "SELECT COUNT(id) FROM {$this->table} WHERE  category_id = :category",
+                   ",
+            "SELECT COUNT(id) FROM {$this->table} WHERE  category_id = :category",
             $this->entity,
             ['category' => $category_id]
         );
@@ -58,8 +58,9 @@ class PostTable extends Table
             "SELECT p.* , c.name category_name , c.slug category_slug
            FROM posts as p 
            LEFT  JOIN  categories as c ON c.id = p.category_id 
-           WHERE  p.id = ?          "
-            , [$attribute]);
+           WHERE  p.id = ?          ",
+            [$attribute]
+        );
     }
 
     protected function paginationQuery()
@@ -73,6 +74,4 @@ class PostTable extends Table
          ORDER BY created_at  DESC 
          ";
     }
-
-
 }

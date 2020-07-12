@@ -126,4 +126,12 @@ class TableTest extends TestCase
         $this->assertInstanceOf(stdClass::class, $category);
         $this->assertEquals(1, $category->id);
     }
+
+    public function testCount()
+    {
+        $this->table->insert(['name' => 'a1']);
+        $this->table->insert(['name' => 'a2']);
+        $this->table->insert(['name' => 'a2']);
+        $this->assertEquals(3, $this->table->count());
+    }
 }

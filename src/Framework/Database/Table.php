@@ -3,7 +3,6 @@
 
 namespace App\Framework\Database;
 
-use mysql_xdevapi\Exception;
 use Pagerfanta\Pagerfanta;
 use PDO;
 
@@ -70,13 +69,12 @@ class Table
 
     public function findBy(string $field, string $value)
     {
-       return $this->fecthOrFail("SELECT * FROM {$this->table} WHERE  $field = ? ",[$value]);
+        return $this->fecthOrFail("SELECT * FROM {$this->table} WHERE  $field = ? ", [$value]);
     }
 
     public function find(int $id)
     {
         return $this->fecthOrFail("SELECT * FROM {$this->table} WHERE id = ? ", [$id]);
-
     }
 
     protected function fecthOrFail(string $query, array $params = [])
@@ -87,9 +85,6 @@ class Table
             $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
         }
         $record = $query->fetch();
-        if ($record === false) {
-            throw  new NoRecordException();
-        }
         return $record;
     }
 
@@ -148,6 +143,11 @@ class Table
         return $statement->fetchColumn() !== false;
     }
 
+    public function count()
+    {
+        return $this->fetchColum("SELECT count(id) FROM {$this->table}");
+    }
+
     /**
      * @return mixed
      */
@@ -170,5 +170,15 @@ class Table
     public function getPdo(): PDO
     {
         return $this->pdo;
+    }
+
+    private function fetchColum(string $query, array $params = [])
+    {
+        $query = $this->pdo->prepare($query);
+        $query->execute($params);
+        if ($this->entity) {
+            $query->setFetchMode(PDO::FETCH_CLASS, $this->entity);
+        }
+        return $query->fetchColumn();
     }
 }

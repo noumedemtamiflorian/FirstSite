@@ -4,6 +4,7 @@
 namespace App\Admin;
 
 use App\Admin\Action\CategoryCrudAction;
+use App\Admin\Action\DashboardAction;
 use App\Admin\Action\PostCrudAction;
 use Framework\Module;
 use Framework\Renderer\TwigRenderer;
@@ -22,5 +23,10 @@ class AdminModule extends Module
         $renderer->addPath('admin', __DIR__ . '/views');
         $router->crudPost("$prefix/posts", PostCrudAction::class, 'admin.post');
         $router->crudPost("$prefix/categories", CategoryCrudAction::class, 'admin.category');
+        $router->get($prefix, DashboardAction::class, 'admin');
+        if ($renderer instanceof TwigRenderer) {
+            $adminTwigExtension = $container->get(AdminTwigExtenxion::class);
+            $renderer->getTwig()->addExtension($adminTwigExtension);
+        }
     }
 }
