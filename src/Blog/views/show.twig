@@ -8,5 +8,5 @@
         {% endif %}
         {{ post.created_at | ago  }}
     </p>
-    {{ post.content | nl2br }}
+    {{ post.content | echo }}
 {% endblock %}

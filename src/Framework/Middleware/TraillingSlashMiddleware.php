@@ -3,13 +3,12 @@
 
 namespace App\Framework\Middleware;
 
-
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 
 class TraillingSlashMiddleware
 {
-    public function __invoke(ServerRequestInterface $request,callable $next)
+    public function __invoke(ServerRequestInterface $request, callable $next)
     {
         $uri = $request->getUri()->getPath();
         if (!empty($uri) && $uri[-1] === "/") {
@@ -19,5 +18,4 @@ class TraillingSlashMiddleware
         }
         return $next($request);
     }
-
 }

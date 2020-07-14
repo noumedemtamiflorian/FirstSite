@@ -8,8 +8,8 @@ use App\Admin\AdminTwigExtenxion;
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use App\Framework\Session\FlashService;
+use function DI\create;
 use function DI\get;
-use function DI\object;
 use Framework\Renderer\TwigRenderer;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
@@ -20,7 +20,7 @@ return
         'admin.widgets' => [
 
         ],
-        AdminTwigExtenxion::class => object()->constructor(get('admin.widgets'))
+        AdminTwigExtenxion::class => create()->constructor(get('admin.widgets'))
         ,
         AdminModule::class => function (ContainerInterface $container) {
             return new  AdminModule($container);
@@ -40,5 +40,9 @@ return
             $FlashService = $container->get(FlashService::class);
             return new   CategoryCrudAction($renderer, $router, $categoryTable, $FlashService);
         },
-        DashboardAction::class => \DI\object()->constructorParameter('widgets', \DI\get('admin.widgets'))
+        DashboardAction::class => function (ContainerInterface $container) {
+            $twig = $container->get(TwigRenderer::class);
+            $widgets = $container->get('admin.widgets');
+            return new  DashboardAction($twig, $widgets);
+        }
     ];

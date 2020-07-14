@@ -4,12 +4,13 @@ namespace Framework;
 
 use DI\ContainerBuilder;
 use Exception;
-use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class App
+class App implements RequestHandlerInterface
 {
     /**
      * Router
@@ -55,21 +56,26 @@ class App
         return $this;
     }
 
-    public function process(ServerRequestInterface $request)
-    {
-        $middleware = $this->getMiddleware();
-        if (is_null($middleware)) {
-            throw  new  Exception('aucun midlleware m\' a intercepter cette requete');
-        }
-        return call_user_func_array($middleware,[$request, [$this, 'process']]);
-    }
 
     public function run(ServerRequestInterface $request): ResponseInterface
     {
         foreach ($this->modules as $module) {
             $this->getContainer()->get($module);
         }
-        return $this->process($request);
+        return $this->handle($request);
+    }
+
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+
+        $middleware = $this->getMiddleware();
+        if (is_null($middleware)) {
+            throw  new  Exception('aucun midlleware m\' a intercepter cette requete');
+        } elseif (is_callable($middleware)) {
+            return call_user_func_array($middleware, [$request, [$this, 'handle']]);
+        } elseif ($middleware instanceof MiddlewareInterface) {
+            return $middleware->process($request, $this);
+        }
     }
 
     /**
@@ -99,5 +105,4 @@ class App
         }
         return null;
     }
-
 }

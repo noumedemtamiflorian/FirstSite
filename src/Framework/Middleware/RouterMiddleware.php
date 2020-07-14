@@ -3,7 +3,6 @@
 
 namespace App\Framework\Middleware;
 
-
 use Framework\Router;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
@@ -33,5 +32,4 @@ class RouterMiddleware
         $request = $request->withAttribute(get_class($route), $route);
         return $next($request);
     }
-
 }

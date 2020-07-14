@@ -3,7 +3,6 @@
 
 namespace App\Framework\Middleware;
 
-
 use Exception;
 use Framework\Router\Route;
 use GuzzleHttp\Psr7\Response;
@@ -43,5 +42,4 @@ class DispatcherMiddleware
             throw  new Exception("The response is not a string or an instance of ResponseInterface");
         }
     }
-
 }

@@ -32,7 +32,7 @@
                                         </a></h5>
                                 </div>
                                 <p class="card-text">
-                                    {{ post.content | excerpt | nl2br }}
+                                    {{ post.content | excerpt | echo }}
                                 </p>
                                 <p class="text-muted"> {{ post.created_at | ago }}</p>
                             </div>
