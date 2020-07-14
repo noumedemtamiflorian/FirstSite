@@ -23,8 +23,11 @@ use Framework\Router\RouterTwigExtension;
 use Middlewares\Whoops;
 use  Psr\Container\ContainerInterface;
 use  App\Blog\Table\PostTable;
+use Whoops\Run;
 
 return [
+
+    'env' => \DI\env('ENV','production'),
     'database.host' => 'localhost',
     'database.username' => 'root',
     'database.password' => '',
@@ -64,8 +67,5 @@ return [
     },
     DispatcherMiddleware::class => function (ContainerInterface $container) {
         return new   DispatcherMiddleware($container);
-    },
-    Whoops::class => function () {
-        return new Whoops();
     }
 ];

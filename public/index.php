@@ -18,9 +18,10 @@ use Middlewares\TrailingSlash;
 use Middlewares\Utils\Dispatcher;
 use Middlewares\Whoops;
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+chdir(dirname(__DIR__));
+require  'vendor/autoload.php';
 
-$app = (new App(dirname(__DIR__) . '/config/config.php'))
+$app = (new App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
     ->pipe(WhoopsMiddleware::class)

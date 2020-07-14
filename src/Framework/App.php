@@ -80,6 +80,7 @@ class App implements RequestHandlerInterface
 
     /**
      * @return ContainerInterface
+     * @throws Exception
      */
     public function getContainer(): ContainerInterface
     {
