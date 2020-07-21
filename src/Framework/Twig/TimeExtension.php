@@ -21,8 +21,9 @@ class TimeExtension extends AbstractExtension
         ];
     }
 
-    public function ago(DateTime $date, string $format = 'd/m/Y H:i')
+    public function ago( $date, string $format = 'd/m/Y H:i')
     {
+        $date = new DateTime($date);
         return '<time class="timeago" datetime="' . $date->format(DateTime::ISO8601) . '"> ' . $date->format($format) . '</time>';
     }
 }

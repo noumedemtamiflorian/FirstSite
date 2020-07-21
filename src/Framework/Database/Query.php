@@ -3,6 +3,9 @@
 
 namespace App\Framework\Database;
 
+use ArrayAccess;
+use Exception;
+use Iterator;
 use PDO;
 
 class Query
@@ -27,6 +30,14 @@ class Query
      * @var PDO|null
      */
     private $pdo;
+    /**
+     * @var string
+     */
+    private string $entity;
+    /**
+     * @var array
+     */
+    private $records;
     /**
      * @var array
      */
@@ -71,7 +82,21 @@ class Query
         return $this;
     }
 
-    public function __toString()
+    public function into(string $entity)
+    {
+        $this->entity = $entity;
+        return $this;
+    }
+
+    public function all()
+    {
+        $result = $this->records = $this->execute()->fetchAll(PDO::FETCH_ASSOC);
+        return new  QueryResult($result,$this->entity);
+    }
+
+
+    public
+    function __toString()
     {
         $parts = ['SELECT'];
         if ($this->select) {
@@ -88,7 +113,8 @@ class Query
         }
     }
 
-    private function buildFrom()
+    private
+    function buildFrom()
     {
         $from = [];
         foreach ($this->from as $key => $value) {
@@ -101,7 +127,8 @@ class Query
         return join(', ', $from);
     }
 
-    private function execute()
+    private
+    function execute()
     {
         $query = $this->__toString();
         if ($this->params) {
@@ -111,4 +138,6 @@ class Query
         }
         return $this->pdo->query($query);
     }
+
+
 }

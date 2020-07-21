@@ -37,5 +37,6 @@ class PostIndexAction
         $posts = $this->postTable->findPaginatedPublic(10, $params['p'] ?? 1);
         $categories = $this->categoryTable->findAll();
         return $this->renderer->render('@blog/index', compact('posts', 'categories'));
+
     }
 }
