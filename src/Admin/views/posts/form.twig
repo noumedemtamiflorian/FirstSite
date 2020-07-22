@@ -1,11 +1,20 @@
 {{ csrf_input() }}
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         {{ flied('name',item.name,'Titre de l\'article') }}
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         {{ flied('slug',item.slug,'Slug') }}
-
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        {% if item.image != null %}
+            <img src="{{ item.thumb }}" style="width: 100%">
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        {{ flied('image',item.category_id,'image',{type: 'file' }) }}
     </div>
     <div class="col-md-4">
         {{ flied('category_id',item.category_id,'categorie',{options: categories}) }}

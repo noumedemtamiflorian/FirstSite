@@ -75,13 +75,14 @@ class CrudAction
         $errors = null;
         $item = $this->table->find($request->getAttribute('id'));
         if ($request->getMethod() == 'POST') {
-            $params = $this->getParams($request);
+
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->update($item->id, $params);
+                $this->table->update($item->id, $this->getParams($request,$item));
                 $this->flash->typeOfFlash('modifie', $this->message['modifie']);
                 return $this->redirect($this->routePrefix . '.index');
             }
+            $params = $request->getParsedBody();
             $errors = $validator->getErrors();
             $params['id'] = $item->id;
             $item = $params;
@@ -97,15 +98,14 @@ class CrudAction
         $errors = null;
         $item = $this->getNewEntity();
         if ($request->getMethod() == 'POST') {
-            $params = $this->getParams($request);
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->insert($params);
+                $this->table->insert($this->getParams($request,$item));
                 $this->flash->typeOfFlash('ajouter', $this->message['ajouter']);
                 return $this->redirect($this->routePrefix . '.index');
             }
             $errors = $validator->getErrors();
-            $item = $params;
+            $item = $request->getParsedBody();
         }
         return $this->renderer->render(
             $this->viewPath . '/create',
@@ -120,7 +120,7 @@ class CrudAction
         return $this->redirect($this->routePrefix . '.index');
     }
 
-    protected function getParams(Request $request)
+    protected function getParams(Request $request,$item)
     {
         return array_filter($request->getParsedBody(), function ($key) {
             return in_array($key, []);
@@ -129,7 +129,7 @@ class CrudAction
 
     protected function getValidator(Request $request)
     {
-        return new  Validator($request->getParsedBody());
+        return new  Validator(array_merge($request->getParsedBody(),$request->getUploadedFiles()));
     }
 
     protected function getNewEntity()

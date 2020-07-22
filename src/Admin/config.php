@@ -5,6 +5,7 @@ use App\Admin\Action\DashboardAction;
 use App\Admin\Action\PostCrudAction;
 use App\Admin\AdminModule;
 use App\Admin\AdminTwigExtenxion;
+use App\Blog\PostUpload;
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use App\Framework\Session\FlashService;
@@ -31,7 +32,15 @@ return
             $postTable = $container->get(PostTable::class);
             $FlashService = $container->get(FlashService::class);
             $categoryTable = $container->get(CategoryTable::class);
-            return new   PostCrudAction($renderer, $router, $postTable, $FlashService, $categoryTable);
+            $PostUpload = $container->get(PostUpload::class);
+            return new   PostCrudAction(
+                $renderer,
+                $router,
+                $postTable,
+                $FlashService,
+                $categoryTable,
+                $PostUpload
+            );
         },
         CategoryCrudAction::class => function (ContainerInterface $container) {
             $renderer = $container->get(TwigRenderer::class);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Blog\PostUpload;
 use App\Blog\Table\CategoryTable;
 use App\Framework\Middleware\CsrfMiddleware;
 use App\Framework\Middleware\DispatcherMiddleware;
@@ -12,6 +13,7 @@ use App\Framework\Twig\FormExtension;
 use App\Framework\Twig\pagerFantaExtension;
 use App\Framework\Twig\TextEntension;
 use App\Framework\Twig\TimeExtension;
+use App\Framework\Upload;
 use function DI\create;
 use function DI\factory;
 use function DI\get;
@@ -27,7 +29,7 @@ use Whoops\Run;
 
 return [
 
-    'env' => \DI\env('ENV','production'),
+    'env' => \DI\env('ENV', 'production'),
     'database.host' => 'localhost',
     'database.username' => 'root',
     'database.password' => '',
@@ -67,5 +69,11 @@ return [
     },
     DispatcherMiddleware::class => function (ContainerInterface $container) {
         return new   DispatcherMiddleware($container);
+    },
+    PostUpload::class => function () {
+        return new  PostUpload();
+    },
+    Upload::class => function () {
+        return new Upload();
     }
 ];

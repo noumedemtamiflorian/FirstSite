@@ -24,7 +24,6 @@ require  'vendor/autoload.php';
 $app = (new App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
-    ->pipe(WhoopsMiddleware::class)
     ->pipe(TraillingSlashMiddleware::class)
     ->pipe(MethodSlashMiddleware::class)
     ->pipe(CsrfMiddleware::class)

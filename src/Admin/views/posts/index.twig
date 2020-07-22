@@ -20,7 +20,7 @@
                 <td>{{ item.category_name }}</td>
                 <td class="d-flex justify-content-center">
                     <a href="{{ path(routePrefix~'.edit',{id: item.id}) }}" class="btn btn-primary mr-4">Editer</a>
-                    <form action="{{ path(routePrefix~'.delete',{id: item.id}) }}" method="POST">
+                    <form action="{{ path(routePrefix~'.delete',{id: item.id}) }}" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="_method" value="DELETE">
                         <button class="btn btn-danger" type="submit">Supprimer</button>
                         {{ token_input | raw }}

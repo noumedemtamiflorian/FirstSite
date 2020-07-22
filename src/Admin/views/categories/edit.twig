@@ -2,7 +2,7 @@
 {% block title "Edition d'une categorie" %}
 {% block body %}
     <h1>Editer la categorie {{ item.name }}</h1>
-    <form  action="{{ path(routePrefix~'.edit',{id: item.id}) }}" method="post">
+    <form  action="{{ path(routePrefix~'.edit',{id: item.id}) }}" method="post" enctype="multipart/form-data">
         {% include viewPath~'/form.twig' %}
         <button class="btn btn-primary " type="submit">Editer</button>
     </form>

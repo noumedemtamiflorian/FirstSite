@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . "/public/index.php";
-
+$modules = $app->getModules();
 $migrations = [];
 $seeds = [];
 foreach ($modules as $module) {

@@ -21,7 +21,6 @@
         "squizlabs/php_codesniffer": "^3.5",
         "altorouter/altorouter": "^2.0",
         "zendframework/zend-expressive-fastroute": "2.0.0",
-        "symfony/var-dumper": "^5.1",
         "http-interop/http-middleware": "^0.5.0",
         "twig/twig": "^3.0",
         "php-di/php-di": "6.1",
@@ -29,7 +28,8 @@
         "pagerfanta/pagerfanta": "^2.3",
         "middlewares/trailing-slash": "^2.0",
         "middlewares/whoops": "^2.0",
-        "franzl/whoops-middleware": "^1.2"
+        "franzl/whoops-middleware": "^1.2",
+        "symfony/var-dumper": "^4.4"
     },
     "require-dev": {
         "robmorgan/phinx": "^0.12.3"

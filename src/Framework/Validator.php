@@ -5,9 +5,15 @@ namespace App\Framework;
 
 use App\Framework\Validator\ValidationError;
 use DateTime;
+use Psr\Http\Message\UploadedFileInterface;
 
 class Validator
 {
+    private const MINE_TYPES = [
+        'jpg' => 'image/jpeg',
+        'png' => 'image/png',
+        'pdf' => 'application/pdf'
+    ];
     /**
      * @var array
      */
@@ -119,7 +125,7 @@ class Validator
     {
         $value = $this->getValue($key);
         $query = "SELECT id FROM $table WHERE $key = ? ";
-        $params =  [$value];
+        $params = [$value];
         if ($exclude !== null) {
             $query .= " AND id != ? ";
             $params[] = $exclude;
@@ -130,6 +136,33 @@ class Validator
             $this->addError($key, 'unique', [$value]);
         }
         return $this;
+    }
+
+    public function uploaded(string $key)
+    {
+        $file = $this->getValue($key);
+        if ($file === null || $file->getError() !== UPLOAD_ERR_OK) {
+            $this->addError($key, 'uploaded');
+        }
+        return $this;
+    }
+
+    public function extension(string $key, array $extensions)
+    {
+        /**
+         * @var  UploadedFileInterface $file
+         */
+        $file = $this->getValue($key);
+        if ($file !== null && $file->getError() === UPLOAD_ERR_OK) {
+            $type = $file->getClientMediaType();
+            $extension = strtolower(pathinfo($file->getClientFilename(), PATHINFO_EXTENSION));
+            $expectedType = self::MINE_TYPES[$extension] ?? null;
+            if (!in_array($extension, $extensions) || $expectedType !== $type) {
+                $this->addError($key, 'filetype', [join(', ', $extensions)]);
+            }
+        }
+        return $this;
+
     }
 
     public function isValid()
@@ -167,4 +200,5 @@ class Validator
         }
         return null;
     }
+
 }
