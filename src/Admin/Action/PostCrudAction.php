@@ -25,6 +25,10 @@ class PostCrudAction extends CrudAction
      * @var PostUpload
      */
     private PostUpload $postUpload;
+    /**
+     * @var PostTable
+     */
+    private PostTable $PostTable;
 
     public function __construct(
         RendererInterface $renderer,
@@ -36,8 +40,16 @@ class PostCrudAction extends CrudAction
     )
     {
         parent::__construct($renderer, $router, $table, $flash);
+        $this->PostTable = $table;
         $this->categoryTable = $categoryTable;
         $this->postUpload = $postUpload;
+    }
+
+    public function delete(Request $request)
+    {
+        $post = $this->PostTable->find($request->getAttribute('id'));
+        $this->postUpload->delete($post->image);
+        return parent::delete($request);
     }
 
     /**
@@ -49,9 +61,14 @@ class PostCrudAction extends CrudAction
     {
         $params = array_merge($request->getParsedBody(), $request->getUploadedFiles());
         // Uploader le fichier
-        $params['image'] = $this->postUpload->upload($params['image'],$post->image);
+        $image = $this->postUpload->upload($params['image'], $post->image);
+        if ($image) {
+            $params['image'] = $image;
+        } else {
+            unset($params['image']);
+        }
         $params = array_filter($params, function ($key) {
-            return in_array($key, ['name', 'content', 'slug', 'created_at', 'category_id', 'image']);
+            return in_array($key, ['name', 'content', 'slug', 'created_at', 'category_id', 'image', 'published']);
         }, ARRAY_FILTER_USE_KEY);
         return $params = array_merge(
             $params,

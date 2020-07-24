@@ -29,7 +29,8 @@
         "middlewares/trailing-slash": "^2.0",
         "middlewares/whoops": "^2.0",
         "franzl/whoops-middleware": "^1.2",
-        "symfony/var-dumper": "^4.4"
+        "symfony/var-dumper": "5.1.2",
+        "intervention/image": "^2.5"
     },
     "require-dev": {
         "robmorgan/phinx": "^0.12.3"

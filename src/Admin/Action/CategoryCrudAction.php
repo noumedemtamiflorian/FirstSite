@@ -25,7 +25,7 @@ class CategoryCrudAction extends CrudAction
         parent::__construct($renderer, $router, $table, $flash);
     }
 
-    protected function getParams(Request $request)
+    protected function getParams(Request $request, $item)
     {
         return $params = array_filter($request->getParsedBody(), function ($key) {
             return in_array($key, ['name', 'slug']);

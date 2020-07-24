@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class TraillingSlashMiddleware
 {
-    public function __invoke(ServerRequestInterface $request, callable $next)
+    public function __invoke(ServerRequestInterface $request, $next)
     {
         $uri = $request->getUri()->getPath();
         if (!empty($uri) && $uri[-1] === "/") {

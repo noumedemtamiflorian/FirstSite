@@ -2,9 +2,13 @@
 
 
 namespace App\Blog;
+
 use App\Framework\Upload;
 
 class PostUpload extends Upload
 {
-  protected  $path = "E:\PHP Prepocesseur HyperText\MonFramework\public\uploads\posts";
+    protected $path = "E:\PHP Prepocesseur HyperText\MonFramework\public\uploads\posts";
+    protected $formats = [
+     "thumb" =>  [320, 180]
+    ];
 }

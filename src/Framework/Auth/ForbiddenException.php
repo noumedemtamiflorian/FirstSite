@@ -3,8 +3,9 @@
 
 namespace App\Framework\Auth;
 
+use Exception;
 
-class ForbiddenException
+class ForbiddenException extends Exception
 {
 
 }

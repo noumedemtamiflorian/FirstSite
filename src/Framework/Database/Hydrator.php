@@ -3,21 +3,26 @@
 
 namespace App\Framework\Database;
 
-
 class Hydrator
 {
     public static function hydrate(array $array, $object)
     {
+        if (is_string($object)) {
+            $instance = new  $object();
+        } else {
+            $instance = $object;
+        }
         $instance = new  $object();
         foreach ($array as $key => $value) {
             $method = self::getSetter($key);
             if (method_exists($instance, $method)) {
-                return $instance->$method($value);
+                $instance->$method($value);
             } else {
                 $property = lcfirst(self::getProperty($key));
-                return $instance->$property = $value;
+                $instance->$property = $value;
             }
         }
+        return $instance;
     }
 
     private static function getSetter(string $fieldName)

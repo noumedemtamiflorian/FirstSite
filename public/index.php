@@ -1,7 +1,10 @@
 <?php
 
 use App\Admin\AdminModule;
+use App\Auth\AuthModule;
+use App\Auth\ForbiddenMiddleware;
 use App\Blog\BlogModule;
+use App\Framework\Auth\LoggedInMiddleware;
 use App\Framework\Middleware\CsrfMiddleware;
 use App\Framework\Middleware\DispatcherMiddleware;
 use App\Framework\Middleware\MethodSlashMiddleware;
@@ -19,12 +22,16 @@ use Middlewares\Utils\Dispatcher;
 use Middlewares\Whoops;
 
 chdir(dirname(__DIR__));
-require  'vendor/autoload.php';
+require 'vendor/autoload.php';
 
 $app = (new App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
-    ->pipe(TraillingSlashMiddleware::class)
+    ->addModule(AuthModule::class);
+$container = $app->getContainer();
+$app->pipe(TraillingSlashMiddleware::class)
+    ->pipe(ForbiddenMiddleware::class)
+    ->pipe(LoggedInMiddleware::class, $container->get('admin.prefix'))
     ->pipe(MethodSlashMiddleware::class)
     ->pipe(CsrfMiddleware::class)
     ->pipe(RouterMiddleware::class)

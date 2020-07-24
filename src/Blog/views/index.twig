@@ -25,6 +25,8 @@
                                     </a>
                                 </div>
                             {% endif %}
+                            {% if post.image != null %}
+                                <img src="{{ item.thumb }}" style="width: 100%">                            {% endif %}
                             <div class="card-body">
                                 <div class="card-title">
                                     <h5><a href="{{ path('blog.show',{slug: post.slug , id: post.id }) }}">

@@ -3,8 +3,15 @@
 
 namespace App\Framework\Auth;
 
-
-class User
+interface User
 {
+    /**
+     * @return string
+     */
+    public function getUsername();
 
+    /**
+     * @return string[]
+     */
+    public function getRoles();
 }

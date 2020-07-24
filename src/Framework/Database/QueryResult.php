@@ -3,7 +3,6 @@
 
 namespace App\Framework\Database;
 
-
 use ArrayAccess;
 use Exception;
 use Iterator;
@@ -18,69 +17,61 @@ class QueryResult implements Iterator, ArrayAccess
      */
     private ?string $entity;
 
-    public function __construct(array $records,?string  $entity = null)
+    public function __construct(array $records, ?string  $entity = null)
     {
         $this->records = $records;
         $this->entity = $entity;
     }
     public function get($index)
     {
-        if ($this->entity)
+        if ($this->entity) {
             if (isset($this->hydratedRecords[$index])) {
-                $this->hydratedRecords[$index] = hydrator::hydrate($this->all()[$index], $this->entity);
+                $this->hydratedRecords[$index] = hydrator::hydrate($this->records[$index], $this->entity);
             }
-        return $this->all()[$index];
+        }
+        return $this->records[$index];
     }
-    public
-    function offsetExists($offset)
+    public function offsetExists($offset)
     {
         return isset($this->records[$offset]);
     }
 
-    public
-    function offsetGet($offset)
+    public function offsetGet($offset)
     {
         return $this->get($offset);
     }
 
-    public
-    function offsetSet($offset, $value)
+    public function offsetSet($offset, $value)
     {
         throw  new Exception("Impossible de modifier comme ca a la voler");
     }
 
-    public
-    function offsetUnset($offset)
+    public function offsetUnset($offset)
     {
         throw  new Exception("Impossible de supprimer comme ca a la voler");
     }
 
-    public
-    function current()
+    public function current()
     {
         return $this->get($this->index);
     }
 
-    public
-    function next()
+    public function next()
     {
         $this->index++;
     }
 
-    public
-    function key()
+    public function key()
     {
         return $this->index;
     }
 
-    public
-    function valid()
+    public function valid()
     {
         return isset($this->records[$this->index]);
     }
 
-    public
-    function rewind()
+    public function rewind()
     {
         $this->index = 0;
     }

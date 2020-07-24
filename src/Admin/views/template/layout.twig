@@ -7,16 +7,29 @@
     <title>{% block title "Mon site" %}</title>
 </head>
 <body>
-
-<nav class="navbar navbar-expand navbar-dark bg-dark">
+<nav class="navbar  navbar-expand-sm navbar-dark bg-dark">
     <a class="navbar-brand" href="{{ path('admin') }}">Administration</a>
-    <ul class="nav navbar-nav">
+    <ul class="navbar-nav mr-auto">
         {{ admin_menu() }}
     </ul>
+    <div class="navbar-nav">
+        {% if current_user() != null %}
+            <div class="navbar-text mr-4">Connecter en tant que {{ current_user().username }}</div>
+            <form class="nav-item active" action="{{ path('auth.logout') }}" method="post">
+                {{ csrf_input() }}
+                <button class="nav-link bg-dark">Se deconnecter</button>
+            </form>
+        {% else %}
+            <div class="nav-item active">
+                <a class="nav-link" href="{{ path('auth.login') }}">Se connecter</a>
+            </div>
+        {% endif %}
+    </div>
 </nav>
 <div class="container-md">
     {% include '@admin/messageFlash.twig' %}
-    {% block body %}{% endblock %}
+    {% block body %}
+    {% endblock %}
 </div>
 </body>
 </html>

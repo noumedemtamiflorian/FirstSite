@@ -4,6 +4,7 @@ namespace App\Blog\Actions;
 
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
+use App\Framework\Database\Hydrator;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -34,9 +35,8 @@ class PostIndexAction
     public function __invoke(Request $request)
     {
         $params = $request->getQueryParams();
-        $posts = $this->postTable->findPaginatedPublic(10, $params['p'] ?? 1);
+        $posts = $this->postTable->findPublic()->paginate(10, $params['p'] ?? 1);
         $categories = $this->categoryTable->findAll();
         return $this->renderer->render('@blog/index', compact('posts', 'categories'));
-
     }
 }

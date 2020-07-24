@@ -3,8 +3,7 @@
 
 namespace App\Framework;
 
-
-class Auth
+interface Auth
 {
-
+    public function getUser();
 }

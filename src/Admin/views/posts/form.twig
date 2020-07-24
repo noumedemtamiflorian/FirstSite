@@ -1,10 +1,13 @@
 {{ csrf_input() }}
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         {{ flied('name',item.name,'Titre de l\'article') }}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         {{ flied('slug',item.slug,'Slug') }}
+    </div>
+    <div class="col-md-4">
+        {{ flied('published',item.published,'En ligne ?',{type: 'checkbox'}) }}
     </div>
 </div>
 <div class="row">

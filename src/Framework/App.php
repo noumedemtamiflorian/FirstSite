@@ -2,6 +2,7 @@
 
 namespace Framework;
 
+use App\Framework\Middleware\RoutePrefixedMiddleware;
 use DI\ContainerBuilder;
 use Exception;
 use Psr\Container\ContainerInterface;
@@ -50,9 +51,13 @@ class App implements RequestHandlerInterface
         return $this;
     }
 
-    public function pipe(string $middleware)
+    public function pipe(string $middleware, ?string $routerPrefix = null)
     {
-        $this->middleware[] = $middleware;
+        if ($routerPrefix === null) {
+            $this->middleware[] = $middleware;
+        } else {
+            $this->middleware[] = new  RoutePrefixedMiddleware($this->container, $routerPrefix, $middleware);
+        }
         return $this;
     }
 
@@ -67,8 +72,8 @@ class App implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-
         $middleware = $this->getMiddleware();
+
         if (is_null($middleware)) {
             throw  new  Exception('aucun midlleware m\' a intercepter cette requete');
         } elseif (is_callable($middleware)) {
@@ -100,7 +105,11 @@ class App implements RequestHandlerInterface
     private function getMiddleware()
     {
         if (array_key_exists($this->index, $this->middleware)) {
-            $middleware = $this->container->get($this->middleware[$this->index]);
+            if (is_string($this->middleware[$this->index])) {
+                $middleware = $this->container->get($this->middleware[$this->index]);
+            } else {
+                $middleware = $this->middleware[$this->index];
+            }
             $this->index++;
             return $middleware;
         }

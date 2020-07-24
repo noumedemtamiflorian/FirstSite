@@ -162,7 +162,6 @@ class Validator
             }
         }
         return $this;
-
     }
 
     public function isValid()
@@ -200,5 +199,4 @@ class Validator
         }
         return null;
     }
-
 }

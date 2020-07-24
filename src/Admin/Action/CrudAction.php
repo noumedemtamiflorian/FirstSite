@@ -3,6 +3,8 @@
 
 namespace App\Admin\Action;
 
+use App\Blog\Entity\Post;
+use App\Framework\Database\Hydrator;
 use App\Framework\Database\Table;
 use App\Framework\Session\FlashService;
 use App\Framework\Validator;
@@ -59,7 +61,7 @@ class CrudAction
     public function index(Request $request): string
     {
         $params = $request->getQueryParams();
-        $items = $this->table->findPaginated(10, $params['p'] ?? 1);
+        $items = $this->table->findAll()->paginate(10, $params['p'] ?? 1);
         return $this->renderer->render($this->viewPath . '/index', compact('items'));
     }
 
@@ -75,17 +77,14 @@ class CrudAction
         $errors = null;
         $item = $this->table->find($request->getAttribute('id'));
         if ($request->getMethod() == 'POST') {
-
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->update($item->id, $this->getParams($request,$item));
+                $this->table->update($item->id, $this->getParams($request, $item));
                 $this->flash->typeOfFlash('modifie', $this->message['modifie']);
                 return $this->redirect($this->routePrefix . '.index');
             }
-            $params = $request->getParsedBody();
             $errors = $validator->getErrors();
-            $params['id'] = $item->id;
-            $item = $params;
+            Hydrator::hydrate($request->getParsedBody(), $item);
         }
         return $this->renderer->render(
             $this->viewPath . '/edit',
@@ -100,12 +99,12 @@ class CrudAction
         if ($request->getMethod() == 'POST') {
             $validator = $this->getValidator($request);
             if ($validator->isValid()) {
-                $this->table->insert($this->getParams($request,$item));
+                $this->table->insert($this->getParams($request, $item));
                 $this->flash->typeOfFlash('ajouter', $this->message['ajouter']);
                 return $this->redirect($this->routePrefix . '.index');
             }
             $errors = $validator->getErrors();
-            $item = $request->getParsedBody();
+            Hydrator::hydrate($request->getParsedBody(), $item);
         }
         return $this->renderer->render(
             $this->viewPath . '/create',
@@ -120,7 +119,12 @@ class CrudAction
         return $this->redirect($this->routePrefix . '.index');
     }
 
-    protected function getParams(Request $request,$item)
+    /**
+     * @param Request $request
+     * @param null|Post $item
+     * @return array|object|null
+     */
+    protected function getParams(Request $request, $item)
     {
         return array_filter($request->getParsedBody(), function ($key) {
             return in_array($key, []);
@@ -129,7 +133,7 @@ class CrudAction
 
     protected function getValidator(Request $request)
     {
-        return new  Validator(array_merge($request->getParsedBody(),$request->getUploadedFiles()));
+        return new  Validator(array_merge($request->getParsedBody(), $request->getUploadedFiles()));
     }
 
     protected function getNewEntity()
