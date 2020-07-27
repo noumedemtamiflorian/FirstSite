@@ -7,7 +7,7 @@ use App\Blog\Actions\CategoryShowAction;
 use App\Blog\Actions\PostIndexAction;
 use App\Blog\Actions\PostShowAction;
 use Framework\Module;
-use Framework\Renderer\TwigRenderer;
+use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
 
@@ -19,7 +19,7 @@ class BlogModule extends Module
 
     public function __construct(ContainerInterface $container)
     {
-        $renderer = $container->get(TwigRenderer::class);
+        $renderer = $container->get(RendererInterface::class);
         $router = $container->get(Router::class);
         $prefix = $container->get('blog.prefix');
         if (get_class($renderer) == "Framework\Renderer\PHPRenderer") {

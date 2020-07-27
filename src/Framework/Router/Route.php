@@ -26,6 +26,7 @@ class Route
     }
 
     /**
+     * Renvoir le Nom de la route
      * @return string
      */
     public function getName(): string
@@ -34,6 +35,7 @@ class Route
     }
 
     /**
+     * Renvoi le callable  de la route
      * @return callable
      */
     public function getCallback()
@@ -42,7 +44,7 @@ class Route
     }
 
     /**
-     * get the url parameters
+     * Renvoi les parametres de la route
      * @return string[]
      */
     public function getParams(): array

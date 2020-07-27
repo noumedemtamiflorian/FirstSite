@@ -10,8 +10,8 @@ use App\Framework\Twig\CsrfExtension;
 use App\Framework\Twig\EchoExtension;
 use App\Framework\Twig\FlashExtension;
 use App\Framework\Twig\FormExtension;
-use App\Framework\Twig\pagerFantaExtension;
-use App\Framework\Twig\TextEntension;
+use App\Framework\Twig\PagerFantaExtension;
+use App\Framework\Twig\TextExtension;
 use App\Framework\Twig\TimeExtension;
 use App\Framework\Upload;
 use function DI\create;
@@ -36,8 +36,8 @@ return [
     'database.name' => 'monsupersite',
     'twig.extensions' => [
         get(RouterTwigExtension::class),
-        get(pagerFantaExtension::class),
-        get(TextEntension::class),
+        get(PagerFantaExtension::class),
+        get(TextExtension::class),
         get(TimeExtension::class),
         get(FormExtension::class),
         get(FlashExtension::class),
@@ -47,8 +47,7 @@ return [
     'view.path' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views',
     SessionInterface::class => create(PHPSession::class),
     CsrfMiddleware::class => create()->constructor(get(SessionInterface::class)),
-    TwigRenderer::class => factory(TwigRendererFactory::class),
-    RendererInterface::class => create(TwigRenderer::class),
+    RendererInterface::class => factory(TwigRendererFactory::class),
     \PDO::class => function (ContainerInterface $container) {
         return new PDO(
             'mysql:host=' . $container->get('database.host')

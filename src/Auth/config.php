@@ -10,7 +10,7 @@ use App\Auth\ForbiddenMiddleware;
 use App\Framework\Auth;
 use App\Framework\Session\FlashService;
 use App\Framework\Session\SessionInterface;
-use Framework\Renderer\TwigRenderer;
+use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
 use function DI\add;
@@ -27,17 +27,17 @@ return [
     },
     Auth::class => get(DatabaseAuth::class),
     LoginAction::class => function (ContainerInterface $container) {
-        $renderer = $container->get(TwigRenderer::class);
+        $renderer = $container->get(RendererInterface::class);
         return new LoginAction($renderer);
     },
     LoginAttemptAction::class => function (ContainerInterface $container) {
-        $renderer = $container->get(TwigRenderer::class);
+        $renderer = $container->get(RendererInterface::class);
         $auth = $container->get(DatabaseAuth::class);
         $router = $container->get(Router::class);
         $sessionInterface = $container->get(SessionInterface::class);
         return new LoginAttemptAction($renderer, $auth, $router, $sessionInterface);
     }, LogoutAction::class => function (ContainerInterface $container) {
-        $renderer = $container->get(TwigRenderer::class);
+        $renderer = $container->get(RendererInterface::class);
         $auth = $container->get(DatabaseAuth::class);
         $flashService = $container->get(FlashService::class);
         return new LogoutAction($renderer, $auth, $flashService);

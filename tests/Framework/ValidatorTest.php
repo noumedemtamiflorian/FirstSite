@@ -1,7 +1,6 @@
 <?php
 
 namespace Test\Framework;
-require dirname(dirname(__DIR__)) . "/vendor/autoload.php";
 
 use App\Framework\Validator;
 use function DI\string;
@@ -99,7 +98,7 @@ class ValidatorTest extends DatabaseTestCase
 
     public function testExists()
     {
-        $pdo = $this->getPDO();
+        $pdo = self::$pdo;
         $pdo->exec("CREATE TABLE test (
            id integer primary key autoincrement ,
            name varchar(255)
@@ -112,7 +111,7 @@ class ValidatorTest extends DatabaseTestCase
 
     public function testUnique()
     {
-        $pdo = $this->getPDO();
+        $pdo = self::$pdo;
         $pdo->exec("CREATE TABLE test (
            id integer primary key autoincrement ,
            name varchar(255)

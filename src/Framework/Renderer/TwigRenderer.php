@@ -8,14 +8,15 @@ use Twig\Loader\FilesystemLoader;
 
 class TwigRenderer implements RendererInterface
 {
-
+    /**
+     * @var Environment
+     */
     private $twig;
 
     public function __construct(Environment $twig)
     {
         $this->twig = $twig;
     }
-
 
     /**
      * permet de rajouter un chemin pour changer les vues
@@ -26,7 +27,6 @@ class TwigRenderer implements RendererInterface
     {
         $this->twig->getLoader()->addPath($path, $namespace);
     }
-
 
     /**
      * @param string $view

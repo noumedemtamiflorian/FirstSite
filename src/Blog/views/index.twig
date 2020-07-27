@@ -18,15 +18,16 @@
                 <div class="card-deck">
                     {% for post in row %}
                         <div class="card my-2 mx-2">
-                            {% if post.category_name %}
+                            {% if post.categoryName %}
                                 <div class="card-header">
                                     <a class="text-danger h5">
-                                        {{ post.category_name }}
+                                        {{ post.categoryName }}
                                     </a>
                                 </div>
                             {% endif %}
                             {% if post.image != null %}
-                                <img src="{{ item.thumb }}" style="width: 100%">                            {% endif %}
+                                <img src="{{ post.thumb }}" style="width: 100%">
+                            {% endif %}
                             <div class="card-body">
                                 <div class="card-title">
                                     <h5><a href="{{ path('blog.show',{slug: post.slug , id: post.id }) }}">
@@ -36,7 +37,7 @@
                                 <p class="card-text">
                                     {{ post.content | excerpt | echo }}
                                 </p>
-                                <p class="text-muted"> {{ post.created_at | ago }}</p>
+                                <p class="text-muted"> {{ post.createdAt | ago }}</p>
                             </div>
                             <div class="card-footer">
                                 <a href="{{ path('blog.show',{slug: post.slug , id: post.id }) }}"

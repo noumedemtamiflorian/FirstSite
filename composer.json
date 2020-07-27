@@ -33,6 +33,7 @@
         "intervention/image": "^2.5"
     },
     "require-dev": {
-        "robmorgan/phinx": "^0.12.3"
+        "robmorgan/phinx": "^0.12.3",
+        "phpspec/prophecy-phpunit": "^2.0"
     }
 }

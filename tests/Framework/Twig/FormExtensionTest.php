@@ -3,7 +3,6 @@
 
 namespace Tests\Framework\Twig;
 
-require dirname(dirname(dirname(__DIR__))) . "/vendor/autoload.php";
 
 use App\Framework\Twig\FormExtension;
 use PHPUnit\Framework\TestCase;

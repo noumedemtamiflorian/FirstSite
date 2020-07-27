@@ -2,7 +2,6 @@
 
 
 namespace Tests\Framework\Session;
-require dirname(dirname(dirname(__DIR__))) . "/vendor/autoload.php";
 
 use App\Framework\Session\ArraySession;
 use App\Framework\Session\FlashService;

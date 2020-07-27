@@ -9,6 +9,8 @@ use Twig\Loader\FilesystemLoader;
 
 class TwigRendererFactory
 {
+    private $twig;
+
     public function __invoke(ContainerInterface $container): TwigRenderer
     {
         $debug = $container->get('env') !== 'production';
@@ -25,7 +27,15 @@ class TwigRendererFactory
                 $twig->addExtension($container->get(get_class($extension)));
             }
         }
-        return new
-        TwigRenderer($twig);
+        $this->twig = $twig;
+        return new TwigRenderer($twig);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTwig()
+    {
+        return $this->twig;
     }
 }

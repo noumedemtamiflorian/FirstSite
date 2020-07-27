@@ -9,9 +9,9 @@ use App\Blog\PostUpload;
 use App\Blog\Table\CategoryTable;
 use App\Blog\Table\PostTable;
 use App\Framework\Session\FlashService;
+use Framework\Renderer\RendererInterface;
 use function DI\create;
 use function DI\get;
-use Framework\Renderer\TwigRenderer;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
 
@@ -27,7 +27,7 @@ return
             return new  AdminModule($container);
         },
         PostCrudAction::class => function (ContainerInterface $container) {
-            $renderer = $container->get(TwigRenderer::class);
+            $renderer = $container->get(RendererInterface::class);
             $router = $container->get(Router::class);
             $postTable = $container->get(PostTable::class);
             $FlashService = $container->get(FlashService::class);
@@ -43,14 +43,14 @@ return
             );
         },
         CategoryCrudAction::class => function (ContainerInterface $container) {
-            $renderer = $container->get(TwigRenderer::class);
+            $renderer = $container->get(RendererInterface::class);
             $router = $container->get(Router::class);
             $categoryTable = $container->get(CategoryTable::class);
             $FlashService = $container->get(FlashService::class);
             return new   CategoryCrudAction($renderer, $router, $categoryTable, $FlashService);
         },
         DashboardAction::class => function (ContainerInterface $container) {
-            $twig = $container->get(TwigRenderer::class);
+            $twig = $container->get(RendererInterface::class);
             $widgets = $container->get('admin.widgets');
             return new  DashboardAction($twig, $widgets);
         }

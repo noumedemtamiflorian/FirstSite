@@ -33,7 +33,8 @@ class ForbiddenMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         } catch (ForbiddenException $exception) {
             $this->session->set('auth.redirect', $request->getUri()->getPath());
-            (new  FlashService($this->session))->typeOfFlash('Abscence_compte', 'Vous devez posseder un compte pour acceder a cette page');
+            (new  FlashService($this->session))->typeOfFlash('Abscence_compte', 'Vous devez posseder un 
+            compte pour acceder a cette page');
             return new   RedirectResponse($this->loginPath);
         }
     }

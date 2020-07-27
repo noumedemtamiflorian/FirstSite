@@ -31,7 +31,7 @@ class PHPRenderer implements RendererInterface
     public function addPath(string $namespace, ?string $path = null): void
     {
         if (is_null($path)) {
-            $this->paths[self::DEFAULT_NAMESPACE] = $path;
+            $this->paths[self::DEFAULT_NAMESPACE] = $namespace;
         } else {
             $this->paths[$namespace] = $path;
         }
@@ -50,9 +50,9 @@ class PHPRenderer implements RendererInterface
     public function render(string $view, array $params = []): string
     {
         if ($this->hasNamespace($view)) {
-            $path = "./../src/" . ucfirst($this->getNamespace($view)) . $this->replaceNamespace($view) . '.php';
+            $path = $this->replaceNamespace($view) . '.php';
         } else {
-            $path = './../views' . $this->paths[self::DEFAULT_NAMESPACE] . '/' . $view . '.php';
+            $path = $this->paths[self::DEFAULT_NAMESPACE] . '/' . $view . '.php';
         }
         ob_start();
         $renderer = $this;

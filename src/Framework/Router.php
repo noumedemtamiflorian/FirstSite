@@ -12,7 +12,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Zend\Expressive\Router\FastRouteRouter;
 
 /**
- * Register and match route
+ * Enregistrer , Match , Generer une URI ou Route
  */
 class Router
 {
@@ -26,8 +26,8 @@ class Router
         $this->router = new FastRouteRouter();
     }
 
-
     /**
+     * Permet d'enregistrer une route en methode GET
      * @param string $path
      * @param $callable
      * @param string|null $name
@@ -38,8 +38,8 @@ class Router
         MiddlewareApp($callable), ['GET'], $name));
     }
 
-
     /**
+     * Permet d'enregistrer une route en methode POST
      * @param string $path
      * @param $callable
      * @param string|null $name
@@ -50,6 +50,7 @@ class Router
     }
 
     /**
+     * Permet d'enregistrer une route en methode POST
      * @param string $path
      * @param $callable
      * @param string|null $name
@@ -59,17 +60,8 @@ class Router
         $this->router->addRoute(new ZendRoute($path, new MiddlewareApp($callable), ['DELETE'], $name));
     }
 
-    public function crudPost(string $prefix, $callable, string $prefixName)
-    {
-        $this->get("$prefix", $callable, "$prefixName.index");
-        $this->get("$prefix/{id:\d+}", $callable, "$prefixName.edit");
-        $this->post("$prefix/{id:\d+}", $callable);
-        $this->get("$prefix/new", $callable, "$prefixName.create");
-        $this->post("$prefix/new", $callable);
-        $this->delete("$prefix/{id:\d+}", $callable, "$prefixName.delete");
-    }
-
     /**
+     * Permet de matcher une route(un chemin)
      * @param ServerRequestInterface $request
      * @return Route|null
      */
@@ -86,6 +78,13 @@ class Router
         return null;
     }
 
+    /**
+     * Permet de generer une route (URI)
+     * @param string $name
+     * @param array $params
+     * @param array $queryParams
+     * @return string|null
+     */
     public function generateUri(string $name, array $params = [], array $queryParams = []): ?string
     {
         $uri = $this->router->generateUri($name, $params);

@@ -5,7 +5,6 @@ namespace App\Admin\Action;
 
 use App\Admin\AdminWidgetInterface;
 use Framework\Renderer\RendererInterface;
-use Framework\Renderer\TwigRenderer;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class DashboardAction
@@ -20,7 +19,7 @@ class DashboardAction
      */
     private $widgets;
 
-    public function __construct(TwigRenderer $renderer, array  $widgets)
+    public function __construct(RendererInterface $renderer, array  $widgets)
     {
         $this->renderer = $renderer;
         $this->widgets = $widgets;

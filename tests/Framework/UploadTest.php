@@ -7,24 +7,28 @@ use App\Framework\Upload;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\UploadedFileInterface;
 
-require dirname(dirname(__DIR__)) . "/vendor/autoload.php";
 
 class UploadTest extends TestCase
 {
     /**
      * @var Upload
      */
-    private Upload $upload;
+    private $upload;
+    /**
+     * @var string
+     */
+    private $defaultPath;
 
     protected function setUp(): void
     {
-        $this->upload = new Upload('tests');
+        $this->defaultPath = __DIR__ . DIRECTORY_SEPARATOR . "image";
+        $this->upload = new Upload($this->defaultPath);
     }
 
     public function tearDown(): void
     {
-        if (file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'demo.jpg')) {
-            unlink(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'demo.jpg');
+        if (file_exists($this->defaultPath . '/demo.jpg')) {
+            unlink($this->defaultPath . '/demo.jpg');
         }
     }
 
@@ -32,24 +36,30 @@ class UploadTest extends TestCase
     {
         $uploadeFile = $this->getMockBuilder(UploadedFileInterface::class)->getMock();
         $uploadeFile->expects($this->any())
+            ->method('getError')
+            ->willReturn(0);
+        $uploadeFile->expects($this->any())
             ->method('getClientFilename')
             ->willReturn('demo.jpg');
         $uploadeFile->expects($this->once())
             ->method('moveTo')
-            ->with($this->equalTo('tests\demo.jpg'));
-        $this->assertEquals('demo.jpg', $this->upload->upload($uploadeFile));
+            ->with($this->equalTo($this->defaultPath . DIRECTORY_SEPARATOR . 'demo.jpg'));
+        $this->assertEquals("demo.jpg", $this->upload->upload($uploadeFile));
     }
 
     public function testUploadWithExistingFile()
     {
         $uploadeFile = $this->getMockBuilder(UploadedFileInterface::class)->getMock();
         $uploadeFile->expects($this->any())
+            ->method('getError')
+            ->willReturn(0);
+        $uploadeFile->expects($this->any())
             ->method('getClientFilename')
             ->willReturn('demo_copy.jpg');
-        touch(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'demo.jpg');
+        touch($this->defaultPath . DIRECTORY_SEPARATOR.'demo.jpg');
         $uploadeFile->expects($this->once())
             ->method('moveTo')
-            ->with($this->equalTo('tests\demo_copy.jpg'));
-        $this->assertEquals('demo_copy.jpg', $this->upload->upload($uploadeFile));
+            ->with($this->equalTo($this->defaultPath . DIRECTORY_SEPARATOR.'demo_copy.jpg'));
+        $this->assertEquals("demo_copy.jpg", $this->upload->upload($uploadeFile));
     }
 }

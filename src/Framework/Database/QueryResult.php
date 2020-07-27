@@ -11,7 +11,7 @@ class QueryResult implements Iterator, ArrayAccess
 {
     private array $records;
     private $index = 0;
-    private $hydratedRecords = [];
+    private $hydratedRecords;
     /**
      * @var string|null
      */
@@ -25,11 +25,12 @@ class QueryResult implements Iterator, ArrayAccess
     public function get($index)
     {
         if ($this->entity) {
-            if (isset($this->hydratedRecords[$index])) {
+            if (!isset($this->hydratedRecords[$index])) {
                 $this->hydratedRecords[$index] = hydrator::hydrate($this->records[$index], $this->entity);
             }
+            return $this->hydratedRecords[$index];
         }
-        return $this->records[$index];
+        return $this->entity;
     }
     public function offsetExists($offset)
     {

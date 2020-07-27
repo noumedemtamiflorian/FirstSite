@@ -3,52 +3,60 @@
 
 namespace Tests;
 
-
 use PDO;
-use Phinx\Config\Config;
-use Phinx\Migration\Manager;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\NullOutput;
 
 class DatabaseTestCase extends TestCase
 {
+    /**
+     * @var PDO
+     */
+    protected static $pdo;
 
-    public function getPDO()
+    protected function setUp(): void
     {
-        return new PDO('sqlite::memory:', null, null, [
+        self::$pdo = new PDO('sqlite::memory:', null, null, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
         ]);
     }
 
-    public function getManager(PDO $pdo)
+    public static function CreatePostsTable()
     {
-        $configArray = require dirname(__DIR__) . '/phinx.php';
-        $configArray['environments']['test'] = [
-            'adapter' => 'sqlite',
-            'connection' => $pdo
-        ];
-        $config = new Config($configArray);
-        return new Manager($config, new  StringInput(' '), new NullOutput());
-
+        self::$pdo->query("CREATE TABLE posts (
+                                'id' SMALLINT UNSIGNED NOT NULL,
+                                'name' VARCHAR(40),
+                                'slug' VARCHAR(40),
+                                'content' VARCHAR(250),
+                                'created_at' DATETIME,
+                                'updated_at' DATETIME
+                                )"
+        );
     }
 
-    public function migrateDatabase(PDO $pdo)
+    public static function CreateCategoriesTable()
     {
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
-        $this->getManager($pdo)->seed('test');
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        self::$pdo->query("CREATE TABLE categories (
+                                'id' SMALLINT UNSIGNED NOT NULL,
+                                'name' VARCHAR(40),
+                                'slug' VARCHAR(40)   )"
+        );
     }
 
-    public function seedDatabase(PDO $pdo)
+    public static function FillPostsTable(int $taille = 1)
     {
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_BOTH);
-        $this->getManager($pdo)->migrate('test');
-        $this->getManager($pdo)->seed('test');
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        for ($i = 1; $i <= $taille; $i++) {
+            self::$pdo->query(
+                "INSERT INTO  posts ('id','name','slug','created_at','updated_at','content')
+                            VALUES (
+                            $i,
+                            'name',
+                            'slug',
+                            '1980-10-29 16:49:50',
+                            '1980-10-29 16:49:50',
+                            'contenue'
+                            ) "
+            );
+        }
     }
-
-
 }

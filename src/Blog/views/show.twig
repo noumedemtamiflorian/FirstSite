@@ -2,11 +2,14 @@
 {% block title post.name %}
 {% block body %}
     <h1>{{ post.name }}</h1>
+    {% if post.image != null %}
+        <div class="text-center"><img src="/uploads/posts/{{ post.image }}" style="height: 300px;"></div>
+    {% endif %}
     <p class="text-muted">
-        {% if post.category_id %}
-            <a href="{{ path('blog.category',{ slug: post.category_slug }) }}">{{ post.category_name }}</a> <br>
+        {% if post.categoryId %}
+            <a href="{{ path('blog.category',{ slug: post.categorySlug }) }}">{{ post.categoryName }}</a> <br>
         {% endif %}
-        {{ post.created_at | ago  }}
+        {{ post.createdAt | ago }}
     </p>
     {{ post.content | echo }}
 {% endblock %}

@@ -17,11 +17,11 @@
         {% endif %}
     </div>
     <div class="col-md-4">
-        {{ flied('image',item.category_id,'image',{type: 'file' }) }}
+        {{ flied('image',item.categoryId,'image',{type: 'file' }) }}
     </div>
     <div class="col-md-4">
-        {{ flied('category_id',item.category_id,'categorie',{options: categories}) }}
+        {{ flied('category_id',item.categoryId,'categorie',{options: categories}) }}
     </div>
 </div>
 {{ flied('content',item.content,'content',{type: 'textarea'}) }}
-{{ flied('created_at',item.created_at,'Date de creation ') }}
+{{ flied('created_at',item.createdAt,'Date de creation ') }}

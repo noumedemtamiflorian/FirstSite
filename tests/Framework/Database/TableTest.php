@@ -2,9 +2,9 @@
 
 
 namespace Tests\Framework\Database;
-require dirname(dirname(dirname(__DIR__))) . "/vendor/autoload.php";
 
 
+use App\Framework\Database\NoRecordException;
 use App\Framework\Database\Table;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -84,8 +84,8 @@ class TableTest extends TestCase
         $count = (int)$this->table->getPdo()->query('SELECT COUNT(id) FROM test')->fetchColumn();
         $this->assertEquals(3, $count);
         $this->table->delete(1);
-        $test = $this->table->find(1);
-        $this->assertEquals(null, $test);
+        $this->expectException(NoRecordException::class);
+        $this->table->find(1);
         $count = (int)$this->table->getPdo()->query('SELECT COUNT(id) FROM test')->fetchColumn();
         $this->assertEquals(2, $count);
     }
@@ -101,7 +101,7 @@ class TableTest extends TestCase
     {
         $this->table->insert(['name' => 'a1']);
         $this->table->insert(['name' => 'a2']);
-        $categories = $this->table->findAll();
+        $categories = $this->table->findAll()->fetchAll();
         $this->assertCount(2, $categories);
         $this->assertInstanceOf(stdClass::class, $categories[0]);
         $this->assertEquals('a1', $categories[0]->name);

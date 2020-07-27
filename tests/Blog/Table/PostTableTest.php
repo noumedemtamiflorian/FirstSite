@@ -5,9 +5,8 @@ namespace Tests\Blog\Table;
 
 use App\Blog\Entity\Post;
 use App\Blog\Table\PostTable;
+use App\Framework\Database\NoRecordException;
 use Tests\DatabaseTestCase;
-
-require dirname(dirname(dirname(__DIR__))) . "/vendor/autoload.php";
 
 
 class PostTableTest extends DatabaseTestCase
@@ -20,27 +19,27 @@ class PostTableTest extends DatabaseTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $pdo = $this->getPDO();
-        $this->migrateDatabase($pdo);
-        $this->postTable = new PostTable($pdo);
+        $this->postTable = new PostTable(self::$pdo);
     }
 
     public function testFind()
     {
-        $this->seedDatabase($this->postTable->getPdo());
+        self::CreatePostsTable();
+        self::FillPostsTable();
         $post = $this->postTable->find(1);
         $this->assertInstanceOf(Post::class, $post);
     }
 
     public function testFindNotFoundRecord()
     {
-        $post = $this->postTable->find(1);
-        $this->assertNull($post);
+        self::CreatePostsTable();
+        $this->expectException(NoRecordException::class);
+        $this->postTable->find(1);
     }
-
     public function testUpdate()
     {
-        $this->seedDatabase($this->postTable->getPdo());
+        self::CreatePostsTable();
+        self::FillPostsTable();
         $this->postTable->update(
             1,
             [
@@ -54,7 +53,9 @@ class PostTableTest extends DatabaseTestCase
 
     public function testInsert()
     {
+        self::CreatePostsTable();
         $this->postTable->insert([
+            'id' => 1,
             'name' => 'Salut',
             'slug' => 'demo',
             'content' => 'contenue',
@@ -69,6 +70,7 @@ class PostTableTest extends DatabaseTestCase
 
     public function delete()
     {
+        self::CreatePostsTable();
         $this->postTable->insert([
             'name' => 'Salut',
             'slug' => 'demo',
@@ -87,6 +89,6 @@ class PostTableTest extends DatabaseTestCase
         $this->assertEquals(2, (int)$count);
         $this->postTable->delete($this->pdo->lastInsertId());
         $count = $this->pdo->query('SELECT COUNT(id) FROM posts ')->fetchColumn();
-        $this->assertEquals(1,(int)$count);
+        $this->assertEquals(1, (int)$count);
     }
 }

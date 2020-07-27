@@ -7,7 +7,7 @@ use App\Auth\Action\LoginAction;
 use App\Auth\Action\LoginAttemptAction;
 use App\Auth\Action\LogoutAction;
 use Framework\Module;
-use Framework\Renderer\TwigRenderer;
+use Framework\Renderer\RendererInterface;
 use Framework\Router;
 use Psr\Container\ContainerInterface;
 
@@ -19,7 +19,7 @@ class AuthModule extends Module
 
     public function __construct(ContainerInterface $container)
     {
-        $renderer = $container->get(TwigRenderer::class);
+        $renderer = $container->get(RendererInterface::class);
         $router = $container->get(Router::class);
         $prefix = $container->get('auth.login');
         $prefixLogout = $container->get('auth.logout');

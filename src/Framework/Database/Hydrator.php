@@ -3,6 +3,9 @@
 
 namespace App\Framework\Database;
 
+use App\Blog\Entity\Post;
+use function PHPUnit\Framework\isInstanceOf;
+
 class Hydrator
 {
     public static function hydrate(array $array, $object)
@@ -32,6 +35,6 @@ class Hydrator
 
     private static function getProperty(string $fieldName)
     {
-        return join('', array_map('ucfirst', explode('-', $fieldName)));
+        return join('', array_map('ucfirst', explode('_', $fieldName)));
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Blog\Entity;
 
 use DateTime;
-use Exception;
 
 class Post
 {
@@ -23,10 +22,7 @@ class Post
         }
     }
 
-    /**
-     * @param $datetime
-     * @throws Exception
-     */
+
     public function setUpdatedAt($datetime): void
     {
         if (is_string($datetime)) {

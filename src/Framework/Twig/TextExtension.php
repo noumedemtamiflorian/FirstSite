@@ -6,14 +6,7 @@ namespace App\Framework\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
-/**
- *
- * serie d'extension pour les textes
- *
- * Class TextEntension
- * @package App\Framework\Twig
- */
-class TextEntension extends AbstractExtension
+class TextExtension extends AbstractExtension
 {
     /**
      * @return array|TwigFilter[]|void
@@ -35,7 +28,7 @@ class TextEntension extends AbstractExtension
      */
     public function excerpt(string $content, int $maxLength = 100): string
     {
-        if (strlen($content) > $maxLength) {
+        if (mb_strlen($content) > $maxLength) {
             $excerpt = substr($content, 0, $maxLength);
             $lastSpace = strrpos($excerpt, ' ');
             return substr($excerpt, 0, $lastSpace) . '  ...';

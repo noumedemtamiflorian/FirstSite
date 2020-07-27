@@ -37,8 +37,7 @@ class PostCrudAction extends CrudAction
         FlashService $flash,
         CategoryTable $categoryTable,
         PostUpload $postUpload
-    )
-    {
+    ) {
         parent::__construct($renderer, $router, $table, $flash);
         $this->PostTable = $table;
         $this->categoryTable = $categoryTable;
