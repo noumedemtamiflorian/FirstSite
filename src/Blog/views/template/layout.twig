@@ -15,10 +15,13 @@
 </head>
 <body>
 <nav class="navbar  navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" href="{{ path('blog.index') }}">Mon Super site</a>
+    <a class="navbar-brand  " href="{{ path('blog.index') }}">Mon Super site</a>
     <ul class="navbar-nav mr-auto">
         <li>
-            <a class="nav-link" href="{{ path('blog.index') }}">Blog</a>
+            <a class="nav-link {{ is_subpath('blog.index') ? 'active' }}" href="{{ path('blog.index') }}">Blog</a>
+        </li>
+        <li>
+            <a class="nav-link {{ is_subpath('contact.index') ? 'active' }}" href="{{ path('contact.index') }}">Contact</a>
         </li>
     </ul>
     <div class="navbar-nav">
@@ -26,7 +29,7 @@
             <div class="navbar-text mr-4">Connecter en tant que {{ current_user().username }}</div>
             <form class="nav-item active" action="{{ path('auth.logout') }}" method="post">
                 {{ csrf_input() }}
-                <button class="nav-link bg-dark">Se deconnecter</button>
+                <button class="nav-link btn bg-danger rounded-sm">Se deconnecter</button>
             </form>
         {% else %}
             <div class="nav-item active">

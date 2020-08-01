@@ -66,8 +66,7 @@ class CrudAction
     }
 
     /**
-     *
-     * editer un element
+     * editer un article
      *
      * @param Request $request
      * @return ResponseInterface|string
@@ -92,6 +91,11 @@ class CrudAction
         );
     }
 
+    /**
+     * Cree un article
+     * @param Request $request
+     * @return ResponseInterface|string
+     */
     public function create(Request $request)
     {
         $errors = null;
@@ -112,6 +116,11 @@ class CrudAction
         );
     }
 
+    /**
+     * Supprimer un article
+     * @param Request $request
+     * @return ResponseInterface
+     */
     public function delete(Request $request)
     {
         $this->table->delete($request->getAttribute('id'));

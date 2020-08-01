@@ -30,6 +30,11 @@ class RouterTwigExtension extends \Twig\Extension\AbstractExtension
         return $this->router->generateUri($path, $params);
     }
 
+    /**
+     * Permet de determiner si une url et parent de path
+     * @param string $path
+     * @return bool
+     */
     public function isSubpath(string $path)
     {
         $uri = ($_SERVER['REQUEST_URI']) ?? '/';

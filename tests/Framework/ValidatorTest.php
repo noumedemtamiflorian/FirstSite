@@ -96,6 +96,17 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(0, $this->makeValidator(['date' => '2013-12-11 11:12:13'])->dateTime('date')->getErrors());
     }
 
+    public function testEmail()
+    {
+        $params = ["email" => "nf"];
+        $errors = $this->makeValidator($params)->email('email')->getErrors();
+        $this->assertEquals("Votre email est invalide", $errors['email']);
+        $this->assertCount(1, $errors);
+        $params = ["email" => "noumedemtamiflorian@gmail.com"];
+        $errors = $this->makeValidator($params)->email('email')->getErrors();
+        $this->assertCount(0, $errors);
+    }
+
     public function testExists()
     {
         $pdo = self::$pdo;
@@ -123,4 +134,6 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertFalse($this->makeValidator(['name' => 'a1'])->unique('name', 'test', $pdo, 1)->isValid());
         $this->assertTrue($this->makeValidator(['name' => 'a2'])->unique('name', 'test', $pdo, 1)->isValid());
     }
+
+
 }

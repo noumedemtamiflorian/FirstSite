@@ -28,8 +28,16 @@ class Validator
         $this->params = $params;
     }
 
+    public function email(string $key)
+    {
+        $email = $this->getValue($key);
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+            $this->addError($key, "email", [$email]);
+        }
+        return $this;
+    }
+
     /**
-     *
      * verifie que les champs sont presents dans les tableau
      *
      * @param string ...$keys

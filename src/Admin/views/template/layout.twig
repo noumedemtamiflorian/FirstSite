@@ -17,7 +17,7 @@
             <div class="navbar-text mr-4">Connecter en tant que {{ current_user().username }}</div>
             <form class="nav-item active" action="{{ path('auth.logout') }}" method="post">
                 {{ csrf_input() }}
-                <button class="nav-link bg-dark">Se deconnecter</button>
+                <button class="nav-link btn btn-danger rounded-sm">Se deconnecter</button>
             </form>
         {% else %}
             <div class="nav-item active">

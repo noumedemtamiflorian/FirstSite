@@ -4,6 +4,7 @@ use App\Admin\AdminModule;
 use App\Auth\AuthModule;
 use App\Auth\ForbiddenMiddleware;
 use App\Blog\BlogModule;
+use App\Contact\ContactModule;
 use App\Framework\Auth\LoggedInMiddleware;
 use App\Framework\Middleware\CsrfMiddleware;
 use App\Framework\Middleware\DispatcherMiddleware;
@@ -27,6 +28,7 @@ require 'vendor/autoload.php';
 $app = (new App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
+    ->addModule(ContactModule::class)
     ->addModule(AuthModule::class);
 $container = $app->getContainer();
 $app->pipe(TraillingSlashMiddleware::class)

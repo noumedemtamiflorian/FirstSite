@@ -45,6 +45,8 @@ class FormExtension extends AbstractExtension
             $input = $this->checkbox($value, $attributes);
         } elseif (array_key_exists('options', $options)) {
             $input = $this->select($value, $options['options'], $attributes);
+        } elseif ($type == "email") {
+            $input = $this->email($value, $attributes);
         } else {
             $input = $this->input($value, $attributes);
         }
@@ -74,7 +76,10 @@ class FormExtension extends AbstractExtension
     {
         return "<input type=\"text\" " . $this->getHtmlFromArray($attributes) . " value=\"$value\">";
     }
-
+    private function email(?string $value, array $attributes)
+    {
+        return "<input type=\"email\" " . $this->getHtmlFromArray($attributes) . " value=\"$value\">";
+    }
     private function file(array $attributes)
     {
         return "<input type=\"file\" " . $this->getHtmlFromArray($attributes) . ">";

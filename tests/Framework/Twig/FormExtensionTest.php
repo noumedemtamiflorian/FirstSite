@@ -101,4 +101,19 @@ class FormExtensionTest extends TestCase
              </select>
           </div>', $html);
     }
+
+    public function testEmail()
+    {
+        $html = $this->formExtension->flied(
+            [],
+            'email',
+            "noumedemtamiflorian@gmail.com",
+            'Votre Email',
+            ["type" => "email"]
+        );
+        $this->assertSimilar("<div class=\"form-group\"> 
+<label> for=\"email\" Votre Email</label> 
+<input type=\"email\" class=\"form-control\" id=\"email\" name=\"email\" value=\"noumedemtamiflorian@gmail.com\" </div>"
+            ,$html);
+    }
 }
