@@ -1,0 +1,26 @@
+{% extends '@blog/template/layout.twig' %}
+{% block title "Inscription" %}
+{% block body %}
+    {% if flash('inscription') %}
+        <div class="alert text-center font-weight-bold mt-3 alert-success">
+            {{ flash('inscription') }}
+        </div>
+    {% endif %}
+    <h1 class="mt-5">S'inscrire</h1>
+    <form method="post" action="{{ path("registration.index") }}">
+        {{ csrf_input() }}
+        <div>
+            {{ flied('name',item.name,"Nom d'utilisateur") }}
+        </div>
+        <div>
+            {{ flied('email',item.email,"Email") }}
+        </div>
+        <div>
+            {{ flied('password',item.password,"Mot de passe",{type: 'password'}) }}
+        </div>
+        <div>
+            {{ flied('password_confirm',item.password_confirm,"Confirmer le mot de passe",{type: 'password'}) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Me contacter</button>
+    </form>
+{% endblock %}

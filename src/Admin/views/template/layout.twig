@@ -20,8 +20,15 @@
                 <button class="nav-link btn btn-danger rounded-sm">Se deconnecter</button>
             </form>
         {% else %}
-            <div class="nav-item active">
-                <a class="nav-link" href="{{ path('auth.login') }}">Se connecter</a>
+            <div class="d-flex">
+                <li>
+                    <a class="nav-link  {{ is_subpath('registration.index') ? 'active' }}"
+                       href="{{ path('registration.index') }}">S'inscrire</a>
+                </li>
+                <li>
+                    <a class="nav-link {{ is_subpath('auth.login') ? 'active' }}" href="{{ path('auth.login') }}">Se
+                        connecter</a>
+                </li>
             </div>
         {% endif %}
     </div>

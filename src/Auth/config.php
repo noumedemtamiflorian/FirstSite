@@ -28,14 +28,11 @@ return [
     Auth::class => get(DatabaseAuth::class),
     LoginAction::class => function (ContainerInterface $container) {
         $renderer = $container->get(RendererInterface::class);
-        return new LoginAction($renderer);
-    },
-    LoginAttemptAction::class => function (ContainerInterface $container) {
-        $renderer = $container->get(RendererInterface::class);
         $auth = $container->get(DatabaseAuth::class);
         $router = $container->get(Router::class);
         $sessionInterface = $container->get(SessionInterface::class);
-        return new LoginAttemptAction($renderer, $auth, $router, $sessionInterface);
+        $flashService = $container->get(FlashService::class);
+        return new LoginAction($renderer, $auth, $router, $sessionInterface, $flashService);
     }, LogoutAction::class => function (ContainerInterface $container) {
         $renderer = $container->get(RendererInterface::class);
         $auth = $container->get(DatabaseAuth::class);

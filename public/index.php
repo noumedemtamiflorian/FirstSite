@@ -12,6 +12,7 @@ use App\Framework\Middleware\MethodSlashMiddleware;
 use App\Framework\Middleware\NotFoundMiddleware;
 use App\Framework\Middleware\RouterMiddleware;
 use App\Framework\Middleware\TraillingSlashMiddleware;
+use App\Registration\RegistrationModule;
 use Framework\App;
 use Framework\Router\MiddlewareApp;
 use Franzl\Middleware\Whoops\WhoopsMiddleware;
@@ -28,6 +29,7 @@ require 'vendor/autoload.php';
 $app = (new App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
+    ->addModule(RegistrationModule::class)
     ->addModule(ContactModule::class)
     ->addModule(AuthModule::class);
 $container = $app->getContainer();

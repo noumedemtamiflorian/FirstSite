@@ -25,7 +25,7 @@ class AuthModule extends Module
         $prefixLogout = $container->get('auth.logout');
         $renderer->addPath('auth', __DIR__.'/view');
         $router->get($prefix, LoginAction::class, 'auth.login');
-        $router->post($prefix, LoginAttemptAction::class);
+        $router->post($prefix, LoginAction::class);
         $router->post($prefixLogout, LogoutAction::class, 'auth.logout');
     }
 }

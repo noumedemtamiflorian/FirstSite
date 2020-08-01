@@ -21,7 +21,8 @@
             <a class="nav-link {{ is_subpath('blog.index') ? 'active' }}" href="{{ path('blog.index') }}">Blog</a>
         </li>
         <li>
-            <a class="nav-link {{ is_subpath('contact.index') ? 'active' }}" href="{{ path('contact.index') }}">Contact</a>
+            <a class="nav-link {{ is_subpath('contact.index') ? 'active' }}"
+               href="{{ path('contact.index') }}">Contact</a>
         </li>
     </ul>
     <div class="navbar-nav">
@@ -32,8 +33,15 @@
                 <button class="nav-link btn bg-danger rounded-sm">Se deconnecter</button>
             </form>
         {% else %}
-            <div class="nav-item active">
-                <a class="nav-link" href="{{ path('auth.login') }}">Se connecter</a>
+            <div class="d-flex">
+                <li>
+                    <a class="nav-link  {{ is_subpath('registration.index') ? 'active' }}"
+                       href="{{ path('registration.index') }}">S'inscrire</a>
+                </li>
+                <li>
+                    <a class="nav-link {{ is_subpath('auth.login') ? 'active' }}" href="{{ path('auth.login') }}">Se
+                        connecter</a>
+                </li>
             </div>
         {% endif %}
     </div>

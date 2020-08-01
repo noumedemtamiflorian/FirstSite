@@ -37,6 +37,15 @@ class Validator
         return $this;
     }
 
+    public function password(string $key, string $password_confirm)
+    {
+        $password = $this->getValue($key);
+        if ($password !== $password_confirm) {
+            $this->addError($key, "password_confirm");
+        }
+        return $this;
+    }
+
     /**
      * verifie que les champs sont presents dans les tableau
      *

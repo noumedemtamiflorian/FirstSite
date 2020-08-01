@@ -114,6 +114,21 @@ class FormExtensionTest extends TestCase
         $this->assertSimilar("<div class=\"form-group\"> 
 <label> for=\"email\" Votre Email</label> 
 <input type=\"email\" class=\"form-control\" id=\"email\" name=\"email\" value=\"noumedemtamiflorian@gmail.com\" </div>"
-            ,$html);
+            , $html);
+    }
+
+    public function testPassword()
+    {
+        $html = $this->formExtension->flied(
+            [],
+            'password',
+            "noumedemtamiflorian@gmail.com",
+            'Mots de passe',
+            ["type" => "password"]
+        );
+        $this->assertSimilar("<div class=\"form-group\"> 
+<label> for=\"password\" Mots de passe</label> 
+<input type=\"password\" class=\"form-control\" id=\"password\" name=\"password\" value=\"noumedemtamiflorian@gmail.com\" </div>"
+            , $html);
     }
 }

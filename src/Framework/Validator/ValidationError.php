@@ -19,7 +19,8 @@ class ValidationError
         'unique' => 'Le champs %s doit etre unique',
         'filetype' => 'le champs %s n\'est pas au format valide ( %s )',
         'uploaded' => 'vous devez uploader un fichier',
-        "email" => "Votre email est invalide"
+        "email" => "Votre email est invalide",
+        "password_confirm" => "Les deux mots de passe ne sont pas identique"
     ];
     /**
      * @var array

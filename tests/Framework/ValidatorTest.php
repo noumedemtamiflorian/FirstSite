@@ -107,6 +107,21 @@ class ValidatorTest extends DatabaseTestCase
         $this->assertCount(0, $errors);
     }
 
+    public function testPasswordConfirm()
+    {
+        $params = ["password" => "qwerty", "password_confirm" => "wer"];
+        $errors = $this->makeValidator($params)
+            ->password('password', $params['password_confirm'])
+            ->getErrors();
+        $this->assertEquals("Les deux mots de passe ne sont pas identique", $errors['password']);
+        $this->assertCount(1, $errors);
+        $params = ["password" => "qwerty", "password_confirm" => "qwerty"];
+        $errors = $this->makeValidator($params)
+            ->password('password', $params['password_confirm'])
+            ->getErrors();
+        $this->assertCount(0, $errors);
+    }
+
     public function testExists()
     {
         $pdo = self::$pdo;
