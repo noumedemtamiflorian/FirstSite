@@ -14,6 +14,7 @@ use App\Framework\Twig\PagerFantaExtension;
 use App\Framework\Twig\TextExtension;
 use App\Framework\Twig\TimeExtension;
 use App\Framework\Upload;
+use App\Shop\TwigExtension\NumberFormatExtension;
 use function DI\create;
 use function DI\factory;
 use function DI\get;
@@ -25,6 +26,7 @@ use Framework\Router\RouterTwigExtension;
 use Middlewares\Whoops;
 use  Psr\Container\ContainerInterface;
 use  App\Blog\Table\PostTable;
+use App\Framework\Twig\AgoExtension;
 use Whoops\Run;
 
 return [
@@ -42,9 +44,10 @@ return [
         get(FormExtension::class),
         get(FlashExtension::class),
         get(EchoExtension::class),
-        get(CsrfExtension::class)
+        get(CsrfExtension::class),
+        get(NumberFormatExtension::class),
+        get(AgoExtension::class)
     ],
-    'view.path' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views',
     SessionInterface::class => create(PHPSession::class),
     CsrfMiddleware::class => create()->constructor(get(SessionInterface::class)),
     RendererInterface::class => factory(TwigRendererFactory::class),

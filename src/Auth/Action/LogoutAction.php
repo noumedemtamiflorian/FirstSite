@@ -43,6 +43,6 @@ class LogoutAction
     {
         $this->auth->logout();
         $this->flashService->typeOfFlash('succes', "vous etes maintenant deconnecter");
-        return new  RedirectResponse('/');
+        return new  RedirectResponse('/news');
     }
 }

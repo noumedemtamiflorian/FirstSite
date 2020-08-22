@@ -25,9 +25,9 @@ class RouterTwigExtension extends \Twig\Extension\AbstractExtension
         ];
     }
 
-    public function pathFor(string $path, array $params = []): string
+    public function pathFor(string $path, array $params = [], array $queryParams = []): string
     {
-        return $this->router->generateUri($path, $params);
+        return $this->router->generateUri($path, $params, $queryParams);
     }
 
     /**

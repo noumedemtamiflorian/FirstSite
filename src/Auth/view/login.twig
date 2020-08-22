@@ -1,16 +1,6 @@
 {% extends '@admin/template/layout.twig' %}
 {% block title "Connexion" %}
 {% block body %}
-    {% if flash('Abscence_compte') %}
-        <div class="alert text-center font-weight-bold mt-3 alert-danger">
-            {{ flash('Abscence_compte') }}
-        </div>
-    {% endif %}
-    {% if flash('incorrect') %}
-        <div class="alert text-center font-weight-bold mt-3 alert-danger">
-            {{ flash('incorrect') }}
-        </div>
-    {% endif %}
     <h1 class="mt-5">Connexion</h1>
     <form action="{{ path('auth.login') }}" method="POST">
         {{ csrf_input() }}

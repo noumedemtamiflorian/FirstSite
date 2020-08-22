@@ -143,10 +143,9 @@ class ValidatorTest extends DatabaseTestCase
            name varchar(255)
         )");
         $pdo->exec("INSERT INTO test (name) VALUES ('a1')");
-        $pdo->exec("INSERT INTO test (name) VALUES ('a1')");
         $this->assertFalse($this->makeValidator(['name' => 'a1'])->unique('name', 'test', $pdo)->isValid());
         $this->assertTrue($this->makeValidator(['name' => 'a111'])->unique('name', 'test', $pdo)->isValid());
-        $this->assertFalse($this->makeValidator(['name' => 'a1'])->unique('name', 'test', $pdo, 1)->isValid());
+        $this->assertTrue($this->makeValidator(['name' => 'a1'])->unique('name', 'test', $pdo, 1)->isValid());
         $this->assertTrue($this->makeValidator(['name' => 'a2'])->unique('name', 'test', $pdo, 1)->isValid());
     }
 

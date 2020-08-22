@@ -3,6 +3,8 @@
 
 namespace App\Auth;
 
+use App\Auth\Entity\User;
+use App\Auth\Table\UserTable;
 use App\Framework\Auth;
 use App\Framework\Database\NoRecordException;
 use App\Framework\Session\SessionInterface;
@@ -33,10 +35,14 @@ class DatabaseAuth implements Auth
         if (empty($username) || empty($password)) {
             return null;
         }
-        $user = $this->userTable->findBy('username', $username);
-        if ($user && password_verify($password, $user->password)) {
-            $this->session->set('auth.user', $user->id);
-            return $user;
+        try {
+            $user = $this->userTable->findBy('username', $username);
+            if ($user && password_verify($password, $user->password)) {
+                $this->session->set('auth.user', $user->id);
+                return $user;
+            }
+        } catch (NoRecordException $e) {
+            return "dcd";
         }
         return null;
     }

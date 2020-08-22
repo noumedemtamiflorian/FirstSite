@@ -1,21 +1,11 @@
-{% if flash('modifie') %}
-    <div class="alert text-center mt-3 alert-success">
-        {{ flash('modifie') }}
-    </div>
-{% endif %}
-{% if flash('ajouter') %}
-    <div class="alert text-center mt-3 alert-success">
-        {{ flash('ajouter') }}
-    </div>
-{% endif %}
-{% if flash('supprimer') %}
-    <div class="alert text-center mt-3 alert-success">
-        {{ flash('supprimer') }}
-    </div>
-{% endif %}
 {% if flash('Abscence_compte') %}
     <div class="alert text-center font-weight-bold mt-3 alert-danger">
         {{ flash('Abscence_compte') }}
+    </div>
+{% endif %}
+{% if flash('message') %}
+    <div class="alert text-center font-weight-bold mt-3 alert-danger">
+        {{ flash('message') }}
     </div>
 {% endif %}
 {% if flash('incorrect') %}

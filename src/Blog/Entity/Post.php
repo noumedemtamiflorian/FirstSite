@@ -3,6 +3,7 @@
 namespace App\Blog\Entity;
 
 use DateTime;
+use DateTimeZone;
 
 class Post
 {
@@ -19,6 +20,7 @@ class Post
     {
         if (is_string($datetime)) {
             $this->createdAt = new DateTime($datetime);
+            $this->createdAt->setTimezone(new DateTimeZone("Africa/Douala"));
         }
     }
 
@@ -27,6 +29,7 @@ class Post
     {
         if (is_string($datetime)) {
             $this->updatedAt = new DateTime($datetime);
+            $this->updatedAt->setTimezone(new DateTimeZone("Africa/Douala"));
         }
     }
 

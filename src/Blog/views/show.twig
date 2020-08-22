@@ -9,7 +9,7 @@
         {% if post.categoryId %}
             <a href="{{ path('blog.category',{ slug: post.categorySlug }) }}">{{ post.categoryName }}</a> <br>
         {% endif %}
-        {{ post.createdAt | ago }}
+        {{ Ago(post.createdAt) }}
     </p>
     {{ post.content | echo }}
 {% endblock %}

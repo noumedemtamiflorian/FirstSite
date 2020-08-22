@@ -3,10 +3,22 @@
 
 namespace App\Auth\Entity;
 
-class User
+use App\Framework\Auth\User as UserInterface;
+
+class User implements UserInterface
 {
-    public string $username;
-    public int $id;
-    public string $email;
-    public string $password;
+    public $id;
+    public $username;
+    public $email;
+    public $password;
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    public function getRoles()
+    {
+        return [];
+    }
 }

@@ -3,7 +3,7 @@
 
 namespace App\Registration\Action;
 
-use App\Auth\UserTable;
+use App\Auth\Table\UserTable;
 use App\Framework\Session\FlashService;
 use App\Framework\Session\SessionInterface;
 use App\Framework\Validator;
@@ -30,37 +30,46 @@ class RegistrationAction
      * @var Router
      */
     private Router $router;
+    /**
+     * @var FlashService
+     */
+    private FlashService $flashService;
 
 
     public function __construct(
         RendererInterface $renderer,
         UserTable $userTable,
         SessionInterface $session,
-        Router $router
+        Router $router,
+        FlashService $flashService
     ) {
         $this->renderer = $renderer;
         $this->userTable = $userTable;
         $this->session = $session;
         $this->router = $router;
+        $this->flashService = $flashService;
     }
 
     public function __invoke(ServerRequestInterface $request)
     {
-        $errors = null;
-        $item = $request->getParsedBody();
-        $validator = $this->getValidator($request);
-        if ($validator->isValid()) {
-            $this->userTable->insert([
-                "username" => $item['name'],
-                "email" => $item['email'],
-                "password" => password_hash($item['password'], PASSWORD_DEFAULT)
-            ]);
-            $this->setAuthUser($item['name']);
-            $path = $this->session->get('auth.redirect') ?? $this->router->generateUri('admin');
-            $this->session->delete('auth.redirect');
-            return new  RedirectResponse($path);
+        $errors = $item = null;
+        if ($request->getMethod() === "POST") {
+            $item = $request->getParsedBody();
+            $validator = $this->getValidator($request);
+            if ($validator->isValid()) {
+                $this->userTable->insert([
+                    "username" => $item['name'],
+                    "email" => $item['email'],
+                    "password" => password_hash($item['password'], PASSWORD_DEFAULT)
+                ]);
+                $this->setAuthUser($item['name']);
+                $path = $this->session->get('auth.redirect') ?? $this->router->generateUri('admin');
+                $this->session->delete('auth.redirect');
+                $this->flashService->typeOfFlash("Inscription_ok", "Votre inscription a ete reussir");
+                return new  RedirectResponse($path);
+            }
+            $errors = $validator->getErrors();
         }
-        $errors = $validator->getErrors();
         return $this->renderer->render(
             "@registration/registration",
             compact("item", "errors")
@@ -83,7 +92,6 @@ class RegistrationAction
 
     /**
      * Permet de d'editer la valeur de session auth.user;
-     * @param UserTable $userTable
      * @param string $username
      */
     private function setAuthUser(string $username): void

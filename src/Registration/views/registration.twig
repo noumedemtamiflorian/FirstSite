@@ -1,11 +1,6 @@
 {% extends '@blog/template/layout.twig' %}
 {% block title "Inscription" %}
 {% block body %}
-    {% if flash('inscription') %}
-        <div class="alert text-center font-weight-bold mt-3 alert-success">
-            {{ flash('inscription') }}
-        </div>
-    {% endif %}
     <h1 class="mt-5">S'inscrire</h1>
     <form method="post" action="{{ path("registration.index") }}">
         {{ csrf_input() }}

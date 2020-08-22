@@ -1,11 +1,6 @@
 {% extends '@blog/template/layout.twig' %}
 {% block title "Me Contacter" %}
 {% block body %}
-    {% if flash('message') %}
-        <div class="alert text-center font-weight-bold mt-3 alert-success">
-            {{ flash('message') }}
-        </div>
-    {% endif %}
     <h1 class="mt-5">Me Contacter</h1>
     <form method="post" action="{{ path("contact.index") }}">
         {{ csrf_input() }}

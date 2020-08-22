@@ -108,7 +108,7 @@ class CrudAction
                 return $this->redirect($this->routePrefix . '.index');
             }
             $errors = $validator->getErrors();
-            Hydrator::hydrate($request->getParsedBody(), $item);
+            $item = Hydrator::hydrate($request->getParsedBody(), $item);
         }
         return $this->renderer->render(
             $this->viewPath . '/create',

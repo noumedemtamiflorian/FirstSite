@@ -3,52 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/src/css/Framework/bootstrap-4.4.1-dist/bootstrap-4.4.1-dist/css/bootstrap.css">
-    <script src="/src/js/framework/jquery-3.4.1.js"></script>
-    <script src="/src/js/framework/jquery.timeago.js"></script>
-    <title>{% block title "Mon site" %}</title>
-    <script>
+    {% block stylesheets %}
+      <link rel="stylesheet" href="/src/css/Framework/bootstrap-4.4.1-dist/bootstrap-4.4.1-dist/css/bootstrap.css">
+      <script src="/src/js/framework/jquery-3.4.1.js"></script>
+      <script src="/src/js/framework/jquery.timeago.js"></script>
+       <script>
         $(document).ready(function () {
             $(".timeago").timeago();
         });
     </script>
+    {% endblock %}
+    <title>{% block title "Mon site" %}</title>
 </head>
 <body>
-<nav class="navbar  navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand  " href="{{ path('blog.index') }}">Mon Super site</a>
-    <ul class="navbar-nav mr-auto">
-        <li>
-            <a class="nav-link {{ is_subpath('blog.index') ? 'active' }}" href="{{ path('blog.index') }}">Blog</a>
-        </li>
-        <li>
-            <a class="nav-link {{ is_subpath('contact.index') ? 'active' }}"
-               href="{{ path('contact.index') }}">Contact</a>
-        </li>
-    </ul>
-    <div class="navbar-nav">
-        {% if current_user() != null %}
-            <div class="navbar-text mr-4">Connecter en tant que {{ current_user().username }}</div>
-            <form class="nav-item active" action="{{ path('auth.logout') }}" method="post">
-                {{ csrf_input() }}
-                <button class="nav-link btn bg-danger rounded-sm">Se deconnecter</button>
-            </form>
-        {% else %}
-            <div class="d-flex">
-                <li>
-                    <a class="nav-link  {{ is_subpath('registration.index') ? 'active' }}"
-                       href="{{ path('registration.index') }}">S'inscrire</a>
-                </li>
-                <li>
-                    <a class="nav-link {{ is_subpath('auth.login') ? 'active' }}" href="{{ path('auth.login') }}">Se
-                        connecter</a>
-                </li>
-            </div>
-        {% endif %}
-    </div>
-</nav>
+{% include '@blog/partials/_nav.twig' %}
 <div class="container-md">
+    {% include '@blog/partials/_flash.twig' %}
     {% block body %}
     {% endblock %}
 </div>
 </body>
+{% block javascript %}
+{% endblock %}
 </html>

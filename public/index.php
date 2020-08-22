@@ -13,6 +13,7 @@ use App\Framework\Middleware\NotFoundMiddleware;
 use App\Framework\Middleware\RouterMiddleware;
 use App\Framework\Middleware\TraillingSlashMiddleware;
 use App\Registration\RegistrationModule;
+use App\Shop\ShopModule;
 use Framework\App;
 use Framework\Router\MiddlewareApp;
 use Franzl\Middleware\Whoops\WhoopsMiddleware;
@@ -25,10 +26,10 @@ use Middlewares\Whoops;
 
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
-
 $app = (new App('config/config.php'))
     ->addModule(AdminModule::class)
     ->addModule(BlogModule::class)
+    ->addModule(ShopModule::class)
     ->addModule(RegistrationModule::class)
     ->addModule(ContactModule::class)
     ->addModule(AuthModule::class);

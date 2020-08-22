@@ -14,8 +14,7 @@ class TwigRendererFactory
     public function __invoke(ContainerInterface $container): TwigRenderer
     {
         $debug = $container->get('env') !== 'production';
-        $viewPath = $container->get('view.path');
-        $loader = new FilesystemLoader($viewPath);
+        $loader = new FilesystemLoader();
         $twig = new Environment($loader, [
             'debug' => $debug /*,
             'cache' => $debug ? false : 'tmp/views' ,
