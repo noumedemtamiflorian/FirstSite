@@ -1,38 +1,36 @@
 {% extends '@blog/template/layout.twig' %}
 {% block title "Votre panier" %}
-{% block head %}
-    <script src="/src/js/Shop/panier.js"></script>
-{% endblock %}
 {% block body %}
-    <div class="d-flex mt-2 justify-content-end align-items-center">
-        <div class="text-success d-flex justify-content-between align-items-center">
-            <a href="#"> <img src="/uploads/shoppingcart_compra_12833.png" alt=""></a>
-            <div class="mx-2">
-                <table class="table table-light text-center text-dark table-striped table-responsive">
-                    <thead class="thead">
+<div class="d-flex mt-2 justify-content-end align-items-center">
+    <div class="text-success d-flex justify-content-between align-items-center">
+        <a href={{ path('shop.panier') }}> <img src="/uploads/shoppingcart_compra_12833.png" alt=""></a>
+        <div class="mx-2">
+            <table class="table table-light text-center text-dark table-striped table-responsive">
+                <thead class="thead">
                     <tr>
                         <th>ITEMS</th>
                         <th>TOTAL</th>
                     </tr>
-                    </thead>
-                    <tbody>
+                </thead>
+                <tbody>
                     <tr class="font-weight-bold font-italic text-dark">
                         <td>{{ panier.getTaille() }}</td>
                         <td>{{ number_format( panier.getSomme()) }}</td>
                     </tr>
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="my-5 d-flex justify-content-between">
-        <div class="h2">Panier</div>
-        <a href="#">
-            <button class="btn btn-success"> Passer a la caisse</button>
-        </a>
-    </div>
-    <table class="table text-center table-striped">
-        <thead class="thead-inverse">
+</div>
+{% if products|length != 0 %}
+<div class="my-5 d-flex justify-content-between">
+    <div class="h2">Panier</div>
+    <a href="#">
+        <button class="btn btn-success"> Passer a la caisse</button>
+    </a>
+</div>
+<table class="table text-center table-striped">
+    <thead class="thead-inverse">
         <tr>
             <th>Image</th>
             <th>Nom du produit</th>
@@ -41,23 +39,22 @@
             <th>Ubcotal</th>
             <th>Action</th>
         </tr>
-        </thead>
-        <tbody class="font-weight-bold text-success">
-        {% for product in products %}
-            {% if product.quantite != 0 %}
-                <tr>
-                    <td><img src="/uploads/posts/0_thumb.jpg" style="width: 6em;"></td>
-                    <td class="d-flex justify-content-center align-items-center">{{ product.name }}</td>
-                    <td>{{ number_format( product.price) }}</td>
-                    <td>{{ product.quantite }}</td>
-                    <td>{{ number_format( product.somme) }}</td>
-                    <td><a id="delpanier" href="{{ path("shop.addpanier",{},{del: product.id}) }}"><img src="/uploads/OIP.jpg" ></a>
-                    </td>
-                </tr>
-            {% endif %}
+    </thead>
+    <tbody class="font-weight-bold text-success">
+            {% for product in products %}
+        {% if product.quantite != 0 %}
+        <tr>
+            <td><img src="/uploads/posts/0_thumb.jpg" style="width: 6em;"></td>
+            <td class="d-flex justify-content-center align-items-center">{{ product.name }}</td>
+            <td>{{ number_format( product.price) }}</td>
+            <td>{{ product.quantite }}</td>
+            <td>{{ number_format( product.somme) }}</td>
+            <td><img src="/uploads/OIP.jpg" alt="{{ product.id}}" id="deletePanier"></td>
+        </tr>
+        {% endif %}
         {% endfor %}
-        </tbody>
-        <tfoot class="font-weight-bold">
+    </tbody>
+    <tfoot class="font-weight-bold">
         <tr>
             <td></td>
             <td></td>
@@ -66,6 +63,14 @@
             <td>Total</td>
             <td>{{ number_format( panier.getSomme() ) }}$</td>
         </tr>
-        </tfoot>
-    </table>
+    </tfoot>
+</table>
+{% else %}
+<div class="alert alert-danger mt-5 text-center" role="alert">
+    <strong>Aucun Produit Ajouter Au Panier</strong>
+</div>
+{% endif %}
+{% endblock %}
+{% block javascript %}
+<script src="/src/js/Shop/panier.js"></script>
 {% endblock %}

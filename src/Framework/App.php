@@ -51,7 +51,7 @@ class App implements RequestHandlerInterface
         return $this;
     }
 
-    public function pipe(string $middleware, ?string $routerPrefix = null)
+    public function pipe(string $middleware, ?array $routerPrefix = null)
     {
         if ($routerPrefix === null) {
             $this->middleware[] = $middleware;

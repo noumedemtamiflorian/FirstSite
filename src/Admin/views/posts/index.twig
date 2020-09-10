@@ -1,36 +1,37 @@
 {% extends '@admin/template/layout.twig' %}
 {% block title "les Articles" %}
 {% block body %}
-    <p class="text-right mt-3">
-        <a href="{{ path(routePrefix~'.create') }}" class="btn btn-primary">Ajouter un Article</a>
-    </p>
-    <table class="table table-striped text-center">
-        <thead>
+<p class="text-right mt-3">
+    <a href="{{ path(routePrefix~'.create') }}" class="btn btn-primary">Ajouter un Article</a>
+</p>
+<table class="table table-striped text-center">
+    <thead>
         <tr>
             <td>Titre</td>
             <td>Categorie</td>
             <td>Actions</td>
         </tr>
-        </thead>
-        <tbody>
+    </thead>
+    <tbody>
         {% set token_input = csrf_input() %}
         {% for item in items %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.categoryName }}</td>
-                <td class="d-flex justify-content-center">
-                    <a href="{{ path(routePrefix~'.edit',{id: item.id}) }}" class="btn btn-primary mr-4">Editer</a>
-                    <form action="{{ path(routePrefix~'.delete',{id: item.id}) }}" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button class="btn btn-danger" type="submit">Supprimer</button>
-                        {{ token_input | raw }}
-                    </form>
-                </td>
-            </tr>
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.categoryName }}</td>
+            <td class="d-flex justify-content-center">
+                <a href="{{ path(routePrefix~'.edit',{id: item.id}) }}" class="btn btn-primary mr-4">Editer</a>
+                <form action="{{ path(routePrefix~'.delete',{id: item.id}) }}" method="POST"
+                    enctype="multipart/form-data">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn btn-danger" type="submit">Supprimer</button>
+                    {{ token_input | raw }}
+                </form>
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
-    <div class="d-flex justify-content-around">
-        {{ paginate(items,routePrefix~'.index') }}
-    </div>
+    </tbody>
+</table>
+<div class="d-flex justify-content-around">
+    {{ paginate(items,routePrefix~'.index') }}
+</div>
 {% endblock %}

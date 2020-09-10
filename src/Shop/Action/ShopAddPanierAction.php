@@ -12,6 +12,10 @@ use Psr\Http\Message\ServerRequestInterface;
 class ShopAddPanierAction
 {
     /**
+     * @var Panier
+     */
+    private Panier $panier;
+    /**
      * @var RendererInterface
      */
     private RendererInterface $renderer;
@@ -19,25 +23,22 @@ class ShopAddPanierAction
      * @var ProductTable
      */
     private ProductTable $productTable;
-    /**
-     * @var SessionInterface
-     */
-    private SessionInterface $session;
 
-    public function __construct(
-        RendererInterface $renderer,
-        ProductTable $productTable,
-        SessionInterface $session
-    ) {
+    public function __construct(RendererInterface $renderer, Panier $panier, ProductTable $productTable)
+    {
         $this->renderer = $renderer;
-        $this->session = $session;
+        $this->panier = $panier;
         $this->productTable = $productTable;
     }
 
+
     public function __invoke(ServerRequestInterface $request)
     {
-        if ($request->getMethod() === "POST") {
-            dump("post");
-        }
+        $params = $request->getQueryParams();
+        $id  = $params['add'];
+        $this->panier->addProduct($id);
+        $panier = $this->panier;
+        $products = $this->productTable->findAll()->paginate(12, $params['p'] ?? 1);
+        return $this->renderer->render("@shop/index", compact("products", 'panier'));
     }
 }

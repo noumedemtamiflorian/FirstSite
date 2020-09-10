@@ -31,7 +31,7 @@ class TableTest extends TestCase
         $pdo->exec("CREATE TABLE test (
            id integer primary key autoincrement ,
            name varchar(255)
-        )");
+        )"); 
         $this->pdo = $pdo;
         $this->table = new Table($this->pdo);
         $reflection = new ReflectionClass($this->table);

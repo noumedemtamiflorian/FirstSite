@@ -60,6 +60,7 @@ class CrudAction
 
     public function index(Request $request): string
     {
+
         $params = $request->getQueryParams();
         $items = $this->table->findAll()->paginate(10, $params['p'] ?? 1);
         return $this->renderer->render($this->viewPath . '/index', compact('items'));
@@ -147,7 +148,7 @@ class CrudAction
 
     protected function getNewEntity()
     {
-        return [];
+        return new Post();
     }
 
     protected function formParams(array $params)

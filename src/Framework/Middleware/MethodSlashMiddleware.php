@@ -5,10 +5,14 @@ namespace App\Framework\Middleware;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class MethodSlashMiddleware
+class MethodSlashMiddleware implements MiddlewareInterface
 {
-    public function __invoke(ServerRequestInterface $request, $next)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $pasedBody = $request->getParsedBody();
         if ((array_key_exists('_method', $pasedBody)) &&
@@ -16,6 +20,6 @@ class MethodSlashMiddleware
         ) {
             $request = $request->withMethod($pasedBody['_method']);
         }
-        return $next($request);
+        return  $handler->handle($request);
     }
 }

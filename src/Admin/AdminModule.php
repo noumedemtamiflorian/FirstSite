@@ -6,6 +6,7 @@ namespace App\Admin;
 use App\Admin\Action\CategoryCrudAction;
 use App\Admin\Action\DashboardAction;
 use App\Admin\Action\PostCrudAction;
+use App\Admin\Action\ShopCrudAction;
 use Framework\Module;
 use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRenderer;
@@ -27,15 +28,16 @@ class AdminModule extends Module
         $router = $container->get(Router::class);
         $prefix = $container->get('admin.prefix');
         $renderer->addPath('admin', __DIR__ . '/views');
-        $this->crudPost("$prefix/posts", PostCrudAction::class, 'admin.post');
-        $this->crudPost("$prefix/categories", CategoryCrudAction::class, 'admin.category');
+        $this->crudAction("$prefix/posts", PostCrudAction::class, 'admin.post');
+        $this->crudAction("$prefix/categories", CategoryCrudAction::class, 'admin.category');
+        $this->crudAction("$prefix/shops", ShopCrudAction::class, 'admin.shop');
         $router->get($prefix, DashboardAction::class, 'admin');
         if ($renderer instanceof TwigRenderer) {
             $adminTwigExtension = $container->get(AdminTwigExtenxion::class);
             $renderer->getTwig()->addExtension($adminTwigExtension);
         }
     }
-    public function crudPost(string $prefix, $callable, string $prefixName)
+    public function crudAction(string $prefix, $callable, string $prefixName)
     {
         $router =  $this->container->get(Router::class);
         $router->get("$prefix", $callable, "$prefixName.index");

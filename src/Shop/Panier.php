@@ -55,7 +55,7 @@ class Panier
      * @param int $id
      * @return null
      */
-    public function delete(int $id)
+    public function deleteProduct(int $id)
     {
         try {
             $reponse = $this->productTable->find($id);

@@ -37,7 +37,7 @@
                                 <p class="card-text">
                                     {{ post.content | excerpt | echo }}
                                 </p>
-                                <p class="text-muted font-italic"> {{ Ago(post.createdAt)  }}</p>
+                                <p class="text-muted font-italic font-weight-bold"> {{ Ago(post.createdAt)  }}</p>
                             </div>
                             <div class="card-footer">
                                 <a href="{{ path('blog.show',{slug: post.slug , id: post.id }) }}"

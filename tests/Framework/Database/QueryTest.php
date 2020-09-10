@@ -3,6 +3,7 @@
 
 namespace Tests\Framework\Database;
 
+use App\Blog\Table\PostTable;
 use App\Framework\Database\Query;
 use Tests\DatabaseTestCase;
 
@@ -63,6 +64,15 @@ class QueryTest extends DatabaseTestCase
             ->from("posts", "p")
             ->into(Demo::class)
             ->fetchAll();
-       $this->assertEquals('slug',$posts[0]->slug);
+       $this->assertEquals('slug 1',$posts[0]->slug);
     }
+   public function testOrder(){
+    self::CreatePostsTable();
+    self::FillPostsTable(10);
+    $posts = (new  Query(self::$pdo))
+    ->from("posts")
+    ->order("id DESC")
+    ->__toString();
+    $this->assertEquals("SELECT * FROM posts ORDER BY id DESC",$posts);
+   }
 }

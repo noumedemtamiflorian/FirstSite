@@ -4,6 +4,7 @@
 namespace App\Shop;
 
 use App\Shop\Action\ShopAddPanierAction;
+use App\Shop\Action\ShopDeletePanierAction;
 use App\Shop\Action\ShopIndexAction;
 use App\Shop\Action\ShopPanierAction;
 use Framework\Module;
@@ -31,5 +32,6 @@ class ShopModule extends Module
         $this->router->get("/shop", ShopIndexAction::class, "shop.index");
         $this->router->get("/shop/panier", ShopPanierAction::class, "shop.panier");
         $this->router->get("/shop/addpanier", ShopAddPanierAction::class, "shop.addpanier");
+        $this->router->get("/shop/deletepanier", ShopDeletePanierAction::class, "shop.deletepanier");
     }
 }

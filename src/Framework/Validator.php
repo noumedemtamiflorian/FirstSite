@@ -28,6 +28,16 @@ class Validator
         $this->params = $params;
     }
 
+    public function priceNull(string $key)
+    {
+        $price = (int)$this->getValue($key);
+        if ($price == 0) {
+            $this->addError($key, "pricenull");
+        }
+        return $this;
+    }
+
+
     public function email(string $key)
     {
         $email = $this->getValue($key);

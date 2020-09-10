@@ -21,7 +21,7 @@ class PostTable extends Table
         return $this->makeQuery()
             ->join($category->getTable() . ' as c', 'c.id = p.category_id')
             ->select("p.* , c.name as category_name , c.slug as category_slug")
-            ->order('p.created_at DESC');
+            ->order('p.created_at ASC');
     }
 
     public function findPublic()
