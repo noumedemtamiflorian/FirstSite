@@ -32,9 +32,9 @@ use Whoops\Run;
 return [
 
     'env' => \DI\env('ENV', 'production'),
-    'database.host' => 'localhost',
-    'database.username' => 'root',
-    'database.password' => '',
+    'database.host' => '127.0.0.1',
+    'database.username' => 'noumedem',
+    'database.password' => 'root',
     'database.name' => 'monsupersite',
     'twig.extensions' => [
         get(RouterTwigExtension::class),
